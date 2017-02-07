@@ -3,4 +3,14 @@ recipe service CRUD
 landing page
 -search textbox
 -random recipe
- 
+-login (twitter, fb, google+, email)
+     -CRUD recipes
+-most voted/likes
+-search by category/tag
+
+
+
+
+
+node + express + mongodb + angular + bootstrap
+passport + jwt
