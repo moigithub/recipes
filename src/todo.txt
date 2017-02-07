@@ -1,0 +1,6 @@
+recipe service CRUD
+
+landing page
+-search textbox
+-random recipe
+ 
