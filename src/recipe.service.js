@@ -1,20 +1,8 @@
-angular.module('RecipeApp',[])
+angular.module('RecipeApi')
 	.service('RecipeService', function($http, $q){
-		this.search = function(name){
+		this.getRandomRecipe = function(){
 			var defer = $q.defer();
-			$http.get('/search/recipes/'+name)
-				.then(function(recipes){
-					defer.resolve(recipes.data);
-				})
-				.catch(function(err){
-					defer.reject();
-				})
-			return defer.promise;
-		}
- 
-		this.searchById = function(recipeID){
-			var defer = $q.defer();
-			$http.get('/search/recipe/'+recipeID)
+			$http.get('/recipes/random')
 				.then(function(recipe){
 					defer.resolve(recipe.data);
 				})

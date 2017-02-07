@@ -29,7 +29,7 @@ describe('Recipe Service', function(){
 		}
 	];
 
-	var resultById = {
+	var oneRecipe = {
 			RecipeID: 123,
 			Name: 'some food with name',
 			Ingredients: ['one','two','three'],
@@ -80,30 +80,22 @@ describe('Recipe Service', function(){
 	);
 
 
-	it('search recipes by name', function(){
+	it('get a random recipe', function(){
 		
-		$httpBackend.whenGET('/search/recipes/name').respond(200, results);
-
-		var recipes;
-		recipeAPI.search('name').then(function(data){
-			recipes = data;
-		})
-		$httpBackend.flush();
-		expect(recipes).toEqual(results);
-	});
-
-	it('search recipes by id', function(){
-		$httpBackend.whenGET('/search/recipe/123').respond(200, resultById);
+		$httpBackend.whenGET('/recipes/random').respond(200, oneRecipe);
 
 		var recipe;
-		recipeAPI.searchById('123').then(function(data){
-			recipe = data;
-		})
+		recipeAPI.getRandomRecipe()
+			.then(function(data){
+				recipe = data;
+			}
+		);
 		$httpBackend.flush();
-		expect(recipe).toEqual(resultById);
+		expect(recipe).toEqual(oneRecipe);
 
 	});
 
+/*
 	it('should handle error', function(){
 		$httpBackend.whenGET('/search/recipe/123').respond(500);
 
@@ -116,4 +108,6 @@ describe('Recipe Service', function(){
 		expect(response).toEqual("error");
 
 	});
+*/
+
 })
