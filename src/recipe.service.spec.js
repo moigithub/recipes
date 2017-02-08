@@ -111,18 +111,42 @@ describe('Recipe Service', function(){
 
 	});
 
-	// it('should handle error', function(){
-	// 	$httpBackend.whenGET('/search/recipe/123').respond(500);
+	it('should search recipe by id', function(){
+		$httpBackend.whenGET('/recipes/searchById/123').respond(200, oneRecipe);
 
-	// 	var response;
-	// 	recipeAPI.searchById('123')
-	// 		.catch(function(error){
-	// 			response = "error";
-	// 		})
-	// 	$httpBackend.flush();
-	// 	expect(response).toEqual("error");
+		var recipe;
+		recipeAPI.searchRecipeById('123')
+			.then(function(data){
+				recipe = data;
+			});
+		$httpBackend.flush();
+		expect(recipe).toEqual(oneRecipe);
+	});
 
-	// });
+	it('should search recipe by category', function(){
+		$httpBackend.whenGET('/recipes/searchByCateg/bebidas').respond(200, results);
+
+		var recipe;
+		recipeAPI.searchRecipeByCateg('bebidas')
+			.then(function(data){
+				recipe = data;
+			});
+		$httpBackend.flush();
+		expect(recipe).toEqual(results);
+	});
+
+	it('should handle error', function(){
+		$httpBackend.whenGET('/recipes/searchById/123').respond(500);
+
+		var response;
+		recipeAPI.searchRecipeById('123')
+			.catch(function(error){
+				response = "error";
+			});
+		$httpBackend.flush();
+		expect(response).toEqual("error");
+
+	});
 
 
 });

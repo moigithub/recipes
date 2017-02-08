@@ -62,6 +62,8 @@ describe('search controller', function(){
 		expect($this.results[0].Name).toBe(results[0].Name);
 		expect($this.results[1].Name).toBe(results[1].Name);
 		expect($this.results[2].Name).toBe(results[2].Name);
+		//dump($this);
+		expect($this.query).toBe('palta');
 		expect(RecipeService.searchRecipe).toHaveBeenCalledWith('palta');
 	});
 

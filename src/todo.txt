@@ -1,15 +1,16 @@
 recipe service CRUD
 
 landing page
--search 
--random recipe
+-search box (ya)
+-random recipe (ya)
 -login (twitter, fb, google+, email)
      -CRUD recipes
 -most voted/likes
 -search by category/tag
 
 
-
+/search page (ya)
+/details page (ya)
 
 
 node + express + mongodb + angular + bootstrap

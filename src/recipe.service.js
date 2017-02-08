@@ -24,6 +24,29 @@ angular.module('RecipeAPI',[])
 			return defer.promise;
 		}
 
+		this.searchRecipeById = function(id){
+			var defer = $q.defer();
+			$http.get('/recipes/searchById/'+id)
+				.then(function(recipe){
+					defer.resolve(recipe.data);
+				})
+				.catch(function(err){
+					defer.reject();
+				});
+			return defer.promise;
+		}
+
+		this.searchRecipeByCateg = function(categ){
+			var defer = $q.defer();
+			$http.get('/recipes/searchByCateg/'+categ)
+				.then(function(recipes){
+					defer.resolve(recipes.data);
+				})
+				.catch(function(err){
+					defer.reject();
+				});
+			return defer.promise;
+		}
 	})
 
 	
