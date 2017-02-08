@@ -1,5 +1,6 @@
-angular.module('RecipeAPI', ['ngResource'])
-	.service('RecipeAPIService', function($resource){
+
+angular.module('RecipeCoreAPI', ['ngResource'])
+	.service('RecipeCoreService', function($resource){
 		return $resource('recipe/:recipeid',{recipeid: '@id'}, {
 			update: {
 				method: 'PUT',
@@ -21,3 +22,4 @@ angular.module('RecipeAPI', ['ngResource'])
 	.config(function ($httpProvider) {
   		$httpProvider.interceptors.push('httpRequestInterceptor');
 	});
+

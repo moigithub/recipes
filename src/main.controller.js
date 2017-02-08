@@ -1,6 +1,21 @@
-angular.module('RecipeApp',['RecipeAPI'])
-	.controller('MainController', function MainController(RecipeAPIService, RecipeService){
-		RecipeService.getRandom().then(function(recipe){
-			$scope.randomRecipe = recipe;
-		});
+
+angular.module('RecipeApp')
+	.controller('MainController', function MainController( $location, RecipeService){
+		var vm = this;
+		RecipeService.getRandomRecipe()
+			.then(function(recipe){
+				vm.randomRecipe = recipe;
+			})
+			.catch(function(err){
+				vm.errorMessage ="Error!";
+			});
+
+		vm.search = function(){
+			if(vm.query){
+				$location.path('/recipes/search').search('q',vm.query);
+			}
+		}
+
+
 	});
+	

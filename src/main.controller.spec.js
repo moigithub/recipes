@@ -1,6 +1,7 @@
+
 var randomRecipe = {
 			RecipeID: 123,
-			Name: 'some food with name',
+			Name: 'palta',
 			Ingredients: ['one','two','three'],
 			Preparation: 'big chunk of text',
 			Category: ['pasta', 'postre'],
@@ -9,16 +10,77 @@ var randomRecipe = {
 		};
 
 describe('Main Controller', function(){
+	var  $q;
+	var $rootScope, $location;
 	var $controller;
 	
 	beforeEach(module('RecipeApp'));
-	beforeEach(inject(function(_$controller_){
+//	beforeEach(module('RecipeAPI'));
+	beforeEach(inject(function(_$controller_, _$location_, _$q_, _$rootScope_, _RecipeService_){
 		$controller = _$controller_;
-	}))
-	it('shows a random recipe from top 100', function(){
-		var scope = {};
+		$q = _$q_;
+		$location = _$location_;
+		$rootScope = _$rootScope_;
+		RecipeService = _RecipeService_;
+		//$scope = {};
+		//mainController = $controller('MainController',{scope: scope});
 
-		expect(scope.randomRecipe).toEqual(randomRecipe);
+		//_$controller_('MainController', {$scope: $scope, $location:$location, RecipeService: RecipeService})
 
-	})
+	}));
+
+
+/*
+	it('gets a random recipe', function(){
+		$httpBackend.whenGET('/recipes/random').respond(200, randomRecipe);
+		$httpBackend.flush();
+
+		expect($scope.randomRecipe).toEqual(randomRecipe);
+	});
+
+	it('redirect to query results page when search something', function(){
+		$scope.query = 'palta';
+		$scope.search();
+		expect($location.url()).toBe('/recipes/search/palta');
+	});
+*/
+	/* controllerAs syntax usando this*/
+	it('gets a random recipe', function(){
+		spyOn(RecipeService,'getRandomRecipe').and.callFake(function(){
+			var defer = $q.defer();
+			defer.resolve(randomRecipe)
+			return defer.promise;
+		});
+
+		var $this = $controller('MainController', {$location:$location, RecipeService: RecipeService});
+		$rootScope.$apply();
+		//dump($this);
+		expect($this.randomRecipe).toEqual(randomRecipe);
+	});
+
+	it('should handle errors', function(){
+		spyOn(RecipeService,'getRandomRecipe').and.callFake(function(){
+			var defer = $q.defer();
+			defer.reject();
+			return defer.promise;
+		});
+
+		var $this = $controller('MainController', {$location:$location, RecipeService: RecipeService});
+		$rootScope.$apply();
+		//dump($this);
+		expect($this.errorMessage).toEqual("Error!");
+	});
+	
+	it('redirect to query results page when search something', function(){
+		var $this = $controller('MainController', {$location:$location, RecipeService: RecipeService},{query: 'palta'});
+		$this.search();
+		expect($location.url()).toBe('/recipes/search?q=palta');
+	});	
+
+	it('empty query should keep on same path', function(){
+		var $this = $controller('MainController', {$location:$location, RecipeService: RecipeService},{query: ''});
+		$this.search();
+		expect($location.url()).toBe('');
+	});	
 });
+

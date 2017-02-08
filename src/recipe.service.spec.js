@@ -1,8 +1,9 @@
+
 describe('Recipe Service', function(){
 	var results= [
 		{
 			RecipeID: 123,
-			Name: 'some food with name',
+			Name: 'palta',
 			Ingredients: ['one','two','three'],
 			Preparation: 'big chunk of text',
 			Category: ['pasta', 'postre'],
@@ -41,37 +42,37 @@ describe('Recipe Service', function(){
 
 	var recipeAPI, $httpBackend;
 
-		/*
-		var recipe = {
-			search: function(name){
+		
+		// var recipe = {
+		// 	search: function(name){
 
-				return results;
-			}
-		};
-		*/
+		// 		return results;
+		// 	}
+		// };
+		
 
 		
-/*		
-		angular.mock.module({
-			'RecipeApp' : {
-				search: function(name){
-					return results;
-				}
-			}			
-		});
-
-		angular.mock.module(function($provider){
-			$provider.factory('RecipeApp', function(){
-				return {
-					search: function(name){
-						return results;
-					}
-				}
-			})
-		})
-*/
 		
-	beforeEach(angular.mock.module('RecipeApp'));
+		// angular.mock.module({
+		// 	'RecipeApp' : {
+		// 		search: function(name){
+		// 			return results;
+		// 		}
+		// 	}			
+		// });
+
+		// angular.mock.module(function($provider){
+		// 	$provider.factory('RecipeApp', function(){
+		// 		return {
+		// 			search: function(name){
+		// 				return results;
+		// 			}
+		// 		}
+		// 	})
+		// })
+
+		
+	beforeEach(angular.mock.module('RecipeAPI'));
 
 	beforeEach(	angular.mock.inject(function(_RecipeService_, _$httpBackend_){
 			recipeAPI = _RecipeService_;
@@ -95,19 +96,33 @@ describe('Recipe Service', function(){
 
 	});
 
-/*
-	it('should handle error', function(){
-		$httpBackend.whenGET('/search/recipe/123').respond(500);
+	it('search recipes', function(){
+		
+		$httpBackend.whenGET('/recipes/search/palta').respond(200, oneRecipe);
 
-		var response;
-		recipeAPI.searchById('123')
-			.catch(function(error){
-				response = "error";
-			})
+		var recipe;
+		recipeAPI.searchRecipe('palta')
+			.then(function(data){
+				recipe = data;
+			}
+		);
 		$httpBackend.flush();
-		expect(response).toEqual("error");
+		expect(recipe).toEqual(oneRecipe);
 
 	});
-*/
 
-})
+	// it('should handle error', function(){
+	// 	$httpBackend.whenGET('/search/recipe/123').respond(500);
+
+	// 	var response;
+	// 	recipeAPI.searchById('123')
+	// 		.catch(function(error){
+	// 			response = "error";
+	// 		})
+	// 	$httpBackend.flush();
+	// 	expect(response).toEqual("error");
+
+	// });
+
+
+});

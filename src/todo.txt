@@ -1,7 +1,7 @@
 recipe service CRUD
 
 landing page
--search textbox
+-search 
 -random recipe
 -login (twitter, fb, google+, email)
      -CRUD recipes
@@ -14,3 +14,7 @@ landing page
 
 node + express + mongodb + angular + bootstrap
 passport + jwt
+
+
+////////////
+npm i -g karma-cli
