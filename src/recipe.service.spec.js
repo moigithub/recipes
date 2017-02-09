@@ -135,6 +135,18 @@ describe('Recipe Service', function(){
 		expect(recipe).toEqual(results);
 	});
 
+	it('should get top 10 recipes', function(){
+		$httpBackend.whenGET('/recipes/top10').respond(200, results);
+
+		var recipe;
+		recipeAPI.getTop10()
+			.then(function(data){
+				recipe = data;
+			});
+		$httpBackend.flush();
+		expect(recipe).toEqual(results);
+	});
+
 	it('should handle error', function(){
 		$httpBackend.whenGET('/recipes/searchById/123').respond(500);
 

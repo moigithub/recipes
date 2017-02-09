@@ -40,6 +40,9 @@ app.use(express.static(__dirname+'/src'));
 app.use('/recipes/search', function(req,res){
 	res.json(results);
 });
+app.use('/recipes/top10', function(req,res){
+	res.json(results);
+});
 app.use('/recipes/random', function(req,res){
 	res.json(results[Math.floor(Math.random()*results.length)]);
 });

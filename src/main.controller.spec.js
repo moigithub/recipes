@@ -1,3 +1,32 @@
+	var results= [
+		{
+			RecipeID: 123,
+			Name: 'palta',
+			Ingredients: ['one','two','three'],
+			Preparation: 'big chunk of text',
+			Category: ['pasta', 'postre'],
+			Likes: 99,
+			UserId: 'user11'
+		},
+		{
+			RecipeID: 124,
+			Name: 'some food with name2',
+			Ingredients: ['one','naa','three'],
+			Preparation: 'asdfsdf text',
+			Category: ['sopas', 'carnes'],
+			Likes: 99,
+			UserId: 'user11'
+		},
+		{
+			RecipeID: 125,
+			Name: 'some food with name3',
+			Ingredients: ['one','two','boo'],
+			Preparation: '8i78i78j78 text',
+			Category: ['bebida'],
+			Likes: 99,
+			UserId: 'user11'
+		}
+	];
 
 var randomRecipe = {
 			RecipeID: 123,
@@ -56,6 +85,19 @@ describe('Main Controller', function(){
 		$rootScope.$apply();
 		//dump($this);
 		expect($this.randomRecipe).toEqual(randomRecipe);
+	});
+
+	it('gets top10 recipes', function(){
+		spyOn(RecipeService,'getTop10').and.callFake(function(){
+			var defer = $q.defer();
+			defer.resolve(results)
+			return defer.promise;
+		});
+
+		var $this = $controller('MainController', {$location:$location, RecipeService: RecipeService});
+		$rootScope.$apply();
+		//dump($this);
+		expect($this.top10).toEqual(results);
 	});
 
 	it('should handle errors', function(){
