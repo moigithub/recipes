@@ -6,7 +6,12 @@
     background-color: #eee;
   }
 
-
+.showonhover {
+	opacity:0.1;
+}
+.card:hover .showonhover {
+	opacity:1;
+}
 
 .hero {
 	position:relative;

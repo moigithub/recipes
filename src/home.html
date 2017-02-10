@@ -2,12 +2,15 @@
   <div class="card-panel">
     <div class="row">
       <div class="col s12 m5">
-        <img ng-src="{{main.randomRecipe.photoUrl}}" class="responsive-img materialboxed z-depth-2" data-caption="Seco de Gato" alt="Seco de Gato">
+        <img materialboxed ng-src="{{main.randomRecipe.photoUrl}}" class="responsive-img materialboxed z-depth-2" data-caption="{{main.randomRecipe.Name}}" alt="{{main.randomRecipe.Name}}">
         
       </div>
       <div class="col s12 m7">
         <h3>{{main.randomRecipe.Name}}</h3>
         <p>{{main.randomRecipe.Preparation}}</p>
+        <div class="chip" ng-repeat="category in main.randomRecipe.Category">
+          <a href="#!/recipes/categ?name={{category}}">{{category}}</a>
+        </div>  
         <div>
           <a class="btn-floating waves-effect waves-light green"><i class="material-icons">thumb_up</i></a>
           <a href="#!/recipe/details?id={{main.randomRecipe.RecipeID}}" class="waves-effect waves-light btn right blue"><i class="material-icons left">receipt</i>View</a>
@@ -20,7 +23,7 @@
 <hr>
 
 <section id="most_voted">
-  <div carousel  >
+  <div carousel dist='-50' ng-if="main.top10.length" >
     <div class="carousel-item"  ng-repeat="recipe in main.top10" >
        <div class="card hoverable">
         <div class="card-content">
@@ -30,15 +33,6 @@
         </div> 
       </div> 
     </div>
-
-
-  </div>
 </section>
 
-        <script>
-          $(document).ready(function(){
-           // $('.carousel').carousel({dist: -40,shift: 15, padding: 10, indicators:false, noWrap: false});
 
-            $('.materialboxed').materialbox();
-          });         
-        </script>

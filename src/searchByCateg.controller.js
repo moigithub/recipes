@@ -6,7 +6,7 @@ angular.module('RecipeApp')
 		RecipeService.searchRecipeByCateg(vm.query)
 			.then(function(recipes){
 				vm.results = recipes;
-				console.log(vm);
+				//console.log(vm);
 			})
 			.catch(function(err){
 				vm.errorMessage = "Error!";

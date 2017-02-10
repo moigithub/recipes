@@ -6,11 +6,13 @@ landing page
 -login (twitter, fb, google+, email)
      -CRUD recipes
 -most voted/likes
--search by category/tag
-
+- my Like list
+- my recipes
 
 /search page (ya)
 /details page (ya)
+/by category page (ya)
+/by multiple category (separados con coma)
 
 
 node + express + mongodb + angular + bootstrap

@@ -1,5 +1,5 @@
 
-angular.module('RecipeApp',['ngRoute','RecipeAPI'])
+angular.module('RecipeApp',['ngRoute','RecipeAPI','ui.materialize.carousel', 'ui.materialize.materialboxed'])
 .config(function($routeProvider){
 	$routeProvider
 		.when('/recipes/search',{

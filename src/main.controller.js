@@ -24,6 +24,5 @@ angular.module('RecipeApp')
 			}
 		}
 
-
 	});
 	

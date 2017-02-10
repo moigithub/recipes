@@ -28,13 +28,102 @@ var results= [
 			Category: ['bebida'],
 			Likes: 99,
 			UserId: 'user11'
+		},
+		{
+			RecipeID: 126,
+			Name: 'Lasagna',
+			photoUrl: 'http://lorempixel.com/250/250/food/4',
+			Ingredients: ['one','two','boo'],
+			Preparation: '8i78i78j78 text',
+			Category: ['bebida'],
+			Likes: 99,
+			UserId: 'user11'
+		},
+		{
+			RecipeID: 127,
+			Name: 'Langostino',
+			photoUrl: 'http://lorempixel.com/250/250/food/5',
+			Ingredients: ['one','two','boo'],
+			Preparation: '8i78i78j78 text',
+			Category: ['Entrada'],
+			Likes: 99,
+			UserId: 'user11'
+		},
+		{
+			RecipeID: 128,
+			Name: 'Tiburon',
+			photoUrl: 'http://lorempixel.com/250/250/food/6',
+			Ingredients: ['one','two','boo'],
+			Preparation: '8i78i78j78 text',
+			Category: ['Segundo'],
+			Likes: 99,
+			UserId: 'user11'
+		},
+		{
+			RecipeID: 129,
+			Name: 'Pescao',
+			photoUrl: 'http://lorempixel.com/250/250/food/7',
+			Ingredients: ['one','two','boo'],
+			Preparation: '8i78i78j78 text',
+			Category: ['bebida'],
+			Likes: 99,
+			UserId: 'user11'
 		}
 	];
 
 var express = require('express');
 var app = express();
 
-console.log(__dirname);
+var mongoose = require('mongoose');
+var passport = require('passport');
+var morgan = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser')
+var session = require('express-session');
+
+
+mongoose.connect('mongodb://localhost/recipes');
+
+app.use(morgan('dev'));
+app.use(cookieParser());
+app.use(bodyParser());
+app.use(session({secret: 'asdfsadf65875dsf'}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+require('./passport.config')(passport);
+
+
+/******************/
+//     ROUTES
+/******************/
+app.get('/auth/logout', function(req, res, next){
+	req.logout();
+	req.redirect('/');
+});
+
+function isLoggedIn(req,res,next) {
+	if(req.isAuthenticated()) return next();
+
+	res.redirect('/');
+}
+
+
+app.post('/signup', passport.authenticate('local-signup', {
+	successRedirect: '/',
+	failureRedirect: '/'
+}));
+
+app.post('/login', passport.authenticate('local-login', {
+	successRedirect: '/',
+	failureRedirect: '/'
+}));
+
+
+
+
+//console.log(__dirname);
 app.use(express.static(__dirname+'/src'));
 
 app.use('/recipes/search', function(req,res){
@@ -54,6 +143,6 @@ app.use('/recipes/searchByCateg', function(req,res){
 });
 
 
-app.listen(3000, function(){
+app.listen(process.env.PORT || 3000, function(){
 	console.log('listening.... on :3000')
 })
