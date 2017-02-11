@@ -1,5 +1,5 @@
 
-angular.module('RecipeApp',['ngRoute','RecipeAPI','ui.materialize.carousel', 'ui.materialize.materialboxed'])
+angular.module('RecipeApp',['ngRoute','RecipeAPI','ui.materialize.carousel', 'ui.materialize.materialboxed','ui.materialize.modal','ui.materialize.sidenav'])
 .config(function($routeProvider){
 	$routeProvider
 		.when('/recipes/search',{
@@ -20,6 +20,11 @@ angular.module('RecipeApp',['ngRoute','RecipeAPI','ui.materialize.carousel', 'ui
 		.when('/',{
 			controller: 'MainController',
 			controllerAs : 'main',
+			templateUrl: 'home.html'
+		})
+		.when('/auth',{
+			controller: 'AuthController',
+			controllerAs : 'auth',
 			templateUrl: 'home.html'
 		})
 		.otherwise({

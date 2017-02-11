@@ -78,7 +78,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 var session = require('express-session');
 
 
@@ -86,8 +86,20 @@ mongoose.connect('mongodb://localhost/recipes');
 
 app.use(morgan('dev'));
 app.use(cookieParser());
-app.use(bodyParser());
-app.use(session({secret: 'asdfsadf65875dsf'}));
+//app.use(bodyParser());
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+// parse application/json
+app.use(bodyParser.json())
+
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
+
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -120,8 +132,15 @@ app.post('/login', passport.authenticate('local-login', {
 	failureRedirect: '/'
 }));
 
+app.get('/auth/facebook', passport.authenticate('facebook',{scope: 'email'}));
+app.get('/auth/facebook/callback', passport.authenticate('facebook', {
+	successRedirect: '/',
+	failureRedirect : '/'
+}));
 
-
+app.get('/auth/user', function(req,res,next){
+	res.json(req.user);
+});
 
 //console.log(__dirname);
 app.use(express.static(__dirname+'/src'));
