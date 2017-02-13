@@ -8,7 +8,17 @@ angular.module('RecipeCoreAPI', ['ngResource'])
 			}
 		})
 	})
-
+	.service('RecipeUserService', function($resource){
+		return $resource('recipe/:recipeid/user/:userid',{
+			recipeid: '@id',
+			userid: '@userid'
+		}, {
+			update: {
+				method: 'PUT',
+				headers: {authToken: 'token'}
+			}
+		})
+	})
 	.factory('httpRequestInterceptor', function () {
 	  return {
 	    request: function (config) {

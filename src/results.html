@@ -1,7 +1,7 @@
 <div id="results">
     <div class="">
       <div class="col s12 orange">
-        <a href="#!" class="breadcrumb">Home</a>
+        <a href="#" class="breadcrumb">Home</a>
         <span class="breadcrumb">{{search.query}}</span>
       </div>
     </div>
@@ -16,11 +16,11 @@
                   
 			    <div class="card-content">
 			      <div class="chip" ng-repeat="category in recipe.Category">
-		        	<a href="#!/recipes/categ?name={{category}}">{{category}}</a>
+		        	<a href="recipes/categ?name={{category}}" internal>{{category}}</a>
 		          </div>
 			    </div>
                 <div class="card-action">
-                    <a href="#!/recipe/details?id={{recipe.RecipeID}}" class="btn waves-effect waves-block waves-light">Show Recipe</a>
+                    <a href="recipe/details?id={{recipe.RecipeID}}" internal class="btn waves-effect waves-block waves-light">Show Recipe</a>
                 </div>
 		  	</div>
 		</div>

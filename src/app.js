@@ -1,6 +1,12 @@
 
-angular.module('RecipeApp',['ngRoute','RecipeAPI','ui.materialize.carousel', 'ui.materialize.materialboxed','ui.materialize.modal','ui.materialize.sidenav'])
-.config(function($routeProvider){
+angular.module('RecipeApp',['ngRoute','RecipeAPI','UserServiceAPI',
+	'ui.materialize.carousel', 'ui.materialize.materialboxed','ui.materialize.modal','ui.materialize.sidenav'])
+.config(function($routeProvider, $locationProvider){
+    $locationProvider.html5Mode({
+	  enabled: true,
+	  rewriteLinks: 'internal'
+	});
+
 	$routeProvider
 		.when('/recipes/search',{
 			controller: 'SearchController',
@@ -22,12 +28,11 @@ angular.module('RecipeApp',['ngRoute','RecipeAPI','ui.materialize.carousel', 'ui
 			controllerAs : 'main',
 			templateUrl: 'home.html'
 		})
-		.when('/auth',{
+		.when('/authCheck',{
 			controller: 'AuthController',
 			controllerAs : 'auth',
-			templateUrl: 'home.html'
+			templateUrl: 'redir.html'
 		})
-		.otherwise({
-			redirecTo: '/'
-		})
+		.otherwise('/');
+
 });

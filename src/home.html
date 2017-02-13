@@ -9,11 +9,11 @@
         <h3>{{main.randomRecipe.Name}}</h3>
         <p>{{main.randomRecipe.Preparation}}</p>
         <div class="chip" ng-repeat="category in main.randomRecipe.Category">
-          <a href="#!/recipes/categ?name={{category}}">{{category}}</a>
+          <a href="recipes/categ?name={{category}}" internal>{{category}}</a>
         </div>  
         <div>
           <a class="btn-floating waves-effect waves-light green"><i class="material-icons">thumb_up</i></a>
-          <a href="#!/recipe/details?id={{main.randomRecipe.RecipeID}}" class="waves-effect waves-light btn-flat right blue"><i class="material-icons left">receipt</i>View</a>
+          <a href="recipe/details?id={{main.randomRecipe.RecipeID}}" internal class="waves-effect waves-light btn-flat right blue"><i class="material-icons left">receipt</i>View</a>
         </div>
         
       </div>
@@ -29,7 +29,7 @@
         <div class="card-content">
           <h5>{{recipe.Name}}</h5>
           <img ng-src="{{recipe.photoUrl}}">
-          <a href="#!/recipe/details?id={{recipe.RecipeID}}"  class="waves-effect waves-light btn blue"><i class="material-icons left">receipt</i>View</a>
+          <a href="recipe/details?id={{recipe.RecipeID}}" internal  class="waves-effect waves-light btn blue"><i class="material-icons left">receipt</i>View</a>
         </div> 
       </div> 
     </div>

@@ -5,7 +5,7 @@
         <img materialboxed ng-src="{{detail.result.photoUrl}}" class="responsive-img materialboxed z-depth-2" data-caption="{{main.randomRecipe.Name}}" alt="{{main.randomRecipe.Name}}">
         <br>
         <div class="chip" ng-repeat="category in detail.result.Category">
-        	<a href="#!/recipes/categ?name={{category}}">{{category}}</a>
+        	<a href="recipes/categ?name={{category}}" internal>{{category}}</a>
         </div>
 		<br>
 		

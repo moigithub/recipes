@@ -95,8 +95,7 @@ app.use(bodyParser.json())
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
+  saveUninitialized: true
 }))
 
 
@@ -112,7 +111,7 @@ require('./passport.config')(passport);
 /******************/
 app.get('/auth/logout', function(req, res, next){
 	req.logout();
-	req.redirect('/');
+	res.redirect('/#!/authCheck');
 });
 
 function isLoggedIn(req,res,next) {
@@ -123,18 +122,24 @@ function isLoggedIn(req,res,next) {
 
 
 app.post('/signup', passport.authenticate('local-signup', {
-	successRedirect: '/',
+	successRedirect: '/#!/authCheck',
 	failureRedirect: '/'
 }));
 
 app.post('/login', passport.authenticate('local-login', {
-	successRedirect: '/',
+	successRedirect: '/#!/authCheck',
 	failureRedirect: '/'
 }));
 
 app.get('/auth/facebook', passport.authenticate('facebook',{scope: 'email'}));
 app.get('/auth/facebook/callback', passport.authenticate('facebook', {
-	successRedirect: '/',
+	successRedirect: '/#!/authCheck',
+	failureRedirect : '/'
+}));
+
+app.get('/auth/twitter', passport.authenticate('twitter'));
+app.get('/auth/twitter/callback', passport.authenticate('twitter', {
+	successRedirect: '/#!/authCheck',
 	failureRedirect : '/'
 }));
 

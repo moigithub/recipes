@@ -5,7 +5,7 @@ landing page
 -random recipe (ya)
 -login (twitter, fb, google+, email)
      -CRUD recipes
--most voted/likes
+-most voted/likes (only logged ppl can vote)
 - my Like list
 - my recipes
 

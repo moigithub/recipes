@@ -122,7 +122,7 @@ describe('Main Controller', function(){
 	it('empty query should keep on same path', function(){
 		var $this = $controller('MainController', {$location:$location, RecipeService: RecipeService},{query: ''});
 		$this.search();
-		expect($location.url()).toBe('');
+		expect($location.url()).toBe('/');
 	});	
 });
 

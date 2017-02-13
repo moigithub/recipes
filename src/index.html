@@ -1,6 +1,7 @@
 <!DOCTYPE html>
   <html>
     <head>
+      <base href="/">
       <!--Import Google Icon Font-->
       <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <!--Import materialize.css-->
@@ -13,16 +14,23 @@
 
     <body ng-app="RecipeApp">
       <div id="main-container">
-        <nav>
+        <nav ng-controller="AuthController as auth">
           
             <a href="#" data-activates="mobile-menu" menuwidth="400" sidenav="left" class="button-collapse"><i class="material-icons">menu</i></a>
       
+            <ul class="hide-on-med-and-down" >
+              <li ng-show="auth.isLogged()"><a href="myRecipes" internal><i class="material-icons left">library_books</i>My Recipes</a></li>
+              <li ng-show="auth.isLogged()"><a href="myFavorites" internal><i class="material-icons left">library_books</i>My Favorites</a></li>
+            </ul>
+
             <ul class="right hide-on-med-and-down" >
-              <li>
+              <li ng-hide="auth.isLogged()">
                 <a href="#" data-activates="slide-out" data-menuwidth="300" closeonclick="true" sidenav="right">
                   <i class="material-icons left">person_pin</i>Login</a>
               </li>
-              <li><a href="/emailSignup"><i class="material-icons left">library_books</i>Register</a></li>
+              <li ng-hide="auth.isLogged()"><a href="/emailSignup"><i class="material-icons left">library_books</i>Register</a></li>
+              <li ng-show="auth.isLogged()">Welcome <span>{{auth.user.displayName}}</span></li>
+              <li ng-show="auth.isLogged()"><a href="/auth/logout"><i class="material-icons left">library_books</i>Logout</a></li>
             </ul>
 
             <div class="side-nav "  id ="mobile-menu"> 
@@ -55,19 +63,19 @@
                       <i class="fa fa-facebook-square fa-4x left" aria-hidden="true"></i>Facebook</a>
                   </p>
                   <p>
-                    <a href="/auth/google" class="btn waves-effect waves-light btn-large red lighten-1">
-                      <i class="fa fa-google-plus-square fa-4x left" aria-hidden="true"></i>Google+</a>
-                  </p>
-                  <p>
                     <a href="/auth/twitter" class="btn waves-effect waves-light btn-large blue darken-3">
                       <i class="fa fa-twitter-square fa-4x left" aria-hidden="true"></i>Twitter</a>
+                  </p>
+                  <p>
+                    <a href="/auth/google" class="btn waves-effect waves-light btn-large red lighten-1">
+                      <i class="fa fa-google-plus-square fa-4x left" aria-hidden="true"></i>Google+</a>
                   </p>
               
               </div>
               <br>
               <hr>
               <p>
-                <a href="/emailSignup"><i class="material-icons left">library_books</i>e-Mail Register</a>
+                <a href="emailSignup"><i class="material-icons left">library_books</i>e-Mail Register</a>
               </p>
             </div>
 
@@ -117,10 +125,12 @@
         <script src="app.js"></script>
         <script src="recipe.service.js"></script>
         <script src="recipeapi.service.js"></script>
+        <script src="auth.service.js"></script>
         <script src="main.controller.js"></script>
         <script src="search.controller.js"></script>
         <script src="searchByCateg.controller.js"></script>
         <script src="details.controller.js"></script>
+        <script src="auth.controller.js"></script>
 
 
       </div>
@@ -155,12 +165,12 @@
             <i class="fa fa-facebook-square fa-4x left" aria-hidden="true"></i>Facebook</a>
         </p>
         <p>
-          <a href="/auth/google" class="btn waves-effect waves-light btn-large red lighten-1">
-            <i class="fa fa-google-plus-square fa-4x left" aria-hidden="true"></i>Google+</a>
-        </p>
-        <p>
           <a href="/auth/twitter" class="btn waves-effect waves-light btn-large blue darken-3">
             <i class="fa fa-twitter-square fa-4x left" aria-hidden="true"></i>Twitter</a>
+        </p>
+        <p>
+          <a href="/auth/google" class="btn waves-effect waves-light btn-large red lighten-1">
+            <i class="fa fa-google-plus-square fa-4x left" aria-hidden="true"></i>Google+</a>
         </p>
     </ul>
      

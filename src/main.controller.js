@@ -2,6 +2,7 @@
 angular.module('RecipeApp')
 	.controller('MainController', function MainController( $location, RecipeService){
 		var vm = this;
+
 		RecipeService.getRandomRecipe()
 			.then(function(recipe){
 				vm.randomRecipe = recipe;
