@@ -17,3 +17,23 @@
 	position:relative;
 	height: 70px;
 }
+
+div.tope {
+  height: 30px;
+  margin:0;
+  padding:0;
+  background-color: #234;
+  color: #eee;
+}
+.tope div {
+  height: 100%;
+}
+.tope ul {
+  height: 100%;
+  margin:6px 0 0 0;
+}
+.tope li {
+  display: list-item;
+  float:left;
+  padding-right: 20px;
+}

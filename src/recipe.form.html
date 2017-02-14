@@ -1,0 +1,39 @@
+<div class="row">
+	<h1>New Recipe</h1>
+	<form class="col s12" name="newRecipe.form">
+		<div class="row">
+		  <div class="input-field col s12">
+		    <label for="Name">Name</label>
+		    <input ng-model="newRecipe.recipe.name" id="Name" type="text" placeholder="" class="validate">
+		  </div>
+		</div>
+		<div class="row">
+		  <div class="input-field col s12">
+		    <label for="preparation">preparation</label>
+		    <textarea ng-model="newRecipe.recipe.preparation" id="preparation" class="materialize-textarea validate"></textarea>
+		  </div>
+		</div>
+		<div class="row">
+		  <div class="input-field col s12">
+		    <label for="ingredients">ingredients</label>
+		    <input ng-model="newRecipe.recipe.ingredients" id="ingredients" type="text" placeholder="" class="validate">
+		  </div>
+		</div>
+		<div class="row">
+		  <div class="input-field col s12">
+		    <label for="categories">categories</label>
+		    <input ng-model="newRecipe.recipe.categories" id="categories" type="text" placeholder="" class="validate">
+		  </div>
+		</div>
+		<div class="row">
+		  <div class="input-field col s12">
+		    <label for="picture">picture</label>
+		    <input ng-model="newRecipe.recipe.picture" id="picture" type="text" placeholder="" class="validate">
+		  </div>
+		</div>
+
+		<button id="Save" ng-click="newRecipe.save()">Save</button>
+		<button id="Close">Close</button>
+
+	</form>
+</div>

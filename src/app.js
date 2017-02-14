@@ -1,11 +1,18 @@
 
-angular.module('RecipeApp',['ngRoute','RecipeAPI','UserServiceAPI',
+angular.module('RecipeApp',['ngRoute','RecipeAPI','UserServiceAPI','RecipeCoreAPI',
 	'ui.materialize.carousel', 'ui.materialize.materialboxed','ui.materialize.modal','ui.materialize.sidenav'])
-.config(function($routeProvider, $locationProvider){
+.config(function($routeProvider, $locationProvider, $provide){
+/*
+$provide.decorator('$sniffer', function($delegate) {
+  $delegate.history = false;
+  return $delegate;
+});
+*/
     $locationProvider.html5Mode({
 	  enabled: true,
 	  rewriteLinks: 'internal'
 	});
+	 $locationProvider.hashPrefix('!');
 
 	$routeProvider
 		.when('/recipes/search',{
@@ -22,6 +29,11 @@ angular.module('RecipeApp',['ngRoute','RecipeAPI','UserServiceAPI',
 			controller: 'DetailsController',
 			controllerAs : 'detail',
 			templateUrl: 'details.html'
+		})
+		.when('/recipe/new',{
+			controller: 'NewRecipeController',
+			controllerAs : 'newRecipe',
+			templateUrl: 'recipe.form.html'
 		})
 		.when('/',{
 			controller: 'MainController',

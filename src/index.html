@@ -13,72 +13,35 @@
     </head>
 
     <body ng-app="RecipeApp">
-      <div id="main-container">
-        <nav ng-controller="AuthController as auth">
-          
-            <a href="#" data-activates="mobile-menu" menuwidth="400" sidenav="left" class="button-collapse"><i class="material-icons">menu</i></a>
-      
-            <ul class="hide-on-med-and-down" >
-              <li ng-show="auth.isLogged()"><a href="myRecipes" internal><i class="material-icons left">library_books</i>My Recipes</a></li>
-              <li ng-show="auth.isLogged()"><a href="myFavorites" internal><i class="material-icons left">library_books</i>My Favorites</a></li>
-            </ul>
-
-            <ul class="right hide-on-med-and-down" >
-              <li ng-hide="auth.isLogged()">
+      <div id="main-container" ng-controller="AuthController as auth">
+        <div class="tope">
+          <div class="nav-wrapper">
+            <ul  ng-if="!auth.isLogged()" class="right" >
+              <li>
                 <a href="#" data-activates="slide-out" data-menuwidth="300" closeonclick="true" sidenav="right">
-                  <i class="material-icons left">person_pin</i>Login</a>
+                  <i class="fa fa-sign-in" aria-hidden="true"></i><span class="hide-on-med-and-down"> Login</span></a>
               </li>
-              <li ng-hide="auth.isLogged()"><a href="/emailSignup"><i class="material-icons left">library_books</i>Register</a></li>
-              <li ng-show="auth.isLogged()">Welcome <span>{{auth.user.displayName}}</span></li>
-              <li ng-show="auth.isLogged()"><a href="/auth/logout"><i class="material-icons left">library_books</i>Logout</a></li>
+              <li><a href="/emailSignup"><i class="fa fa-pencil-square-o" aria-hidden="true"></i><span class="hide-on-med-and-down"> Register</span></a></li>
+            </ul>
+            <ul  ng-if="auth.isLogged()" class="right" >
+              <li >Welcome <span>{{auth.user.displayName}}</span></li>
+              <li ><a href="/auth/logout"><i class="fa fa-sign-out" aria-hidden="true"></i><span class="hide-on-med-and-down"> Logout</span></a></li>
+            </ul>
+          </div>
+        </div>
+        <nav>
+          <div class="nav-wrapper">
+            <div >
+              <a href="#" data-activates="mobile-menu" menuwidth="400" sidenav="left" class="button-collapse"><i class="material-icons">menu</i></a>
+              <span class="brand-logo">BELLYcious</span>
+            </div>
+            <ul ng-if="auth.isLogged()" class="hide-on-med-and-down right" >
+              <li ><a href="recipe/new" internal><i class="material-icons left">library_books</i>Add Recipe</a></li>
+              <li ><a href="myRecipes" internal><i class="material-icons left">library_books</i>My Recipes</a></li>
+              <li ><a href="myFavorites" internal><i class="material-icons left">library_books</i>My Favorites</a></li>
             </ul>
 
-            <div class="side-nav "  id ="mobile-menu"> 
-              <div><i class="material-icons left">person_pin</i>Login</div>
-
-              <div class="row">
-                <form class="col s12">
-                  <div class="row">
-                    <div class="input-field col s12">
-                      <i class="material-icons prefix">email</i>
-                      <input id="email" type="email" class="validate">
-                      <label for="email">Email</label>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="input-field col s12">
-                      <i class="material-icons prefix">account_circle</i>
-                      <input id="password" type="password" class="validate">
-                      <label for="password">Password</label>
-                    </div>
-                  </div>
-
-                </form>
-              </div>
-              <hr>
-              <div> 
-                <p class="right-align">-or- Login with...</p>
-                  <p>
-                    <a href="/auth/Facebook" class="btn waves-effect waves-light btn-large blue lighten-1">
-                      <i class="fa fa-facebook-square fa-4x left" aria-hidden="true"></i>Facebook</a>
-                  </p>
-                  <p>
-                    <a href="/auth/twitter" class="btn waves-effect waves-light btn-large blue darken-3">
-                      <i class="fa fa-twitter-square fa-4x left" aria-hidden="true"></i>Twitter</a>
-                  </p>
-                  <p>
-                    <a href="/auth/google" class="btn waves-effect waves-light btn-large red lighten-1">
-                      <i class="fa fa-google-plus-square fa-4x left" aria-hidden="true"></i>Google+</a>
-                  </p>
-              
-              </div>
-              <br>
-              <hr>
-              <p>
-                <a href="emailSignup"><i class="material-icons left">library_books</i>e-Mail Register</a>
-              </p>
-            </div>
-
+          </div>
         </nav>
 
   
@@ -131,6 +94,7 @@
         <script src="searchByCateg.controller.js"></script>
         <script src="details.controller.js"></script>
         <script src="auth.controller.js"></script>
+        <script src="newrecipe.controller.js"></script>
 
 
       </div>
@@ -175,6 +139,60 @@
     </ul>
      
      
+
+  <div class="side-nav "  id ="mobile-menu">
+              <ul ng-if="auth.isLogged()">
+                <li ><a href="myRecipes" internal><i class="material-icons left">library_books</i>My Recipes</a></li>
+                <li ><a href="myFavorites" internal><i class="material-icons left">library_books</i>My Favorites</a></li>
+                <hr>
+                <li ><a href="/auth/logout"><i class="material-icons left">library_books</i>Logout</a></li>
+              </ul> 
+              <div ng-if="!auth.isLogged()">
+                <div><i class="material-icons left">person_pin</i>Login</div>
+
+                <div class="row">
+                  <form class="col s12">
+                    <div class="row">
+                      <div class="input-field col s12">
+                        <i class="material-icons prefix">email</i>
+                        <input id="email" type="email" class="validate">
+                        <label for="email">Email</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="input-field col s12">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input id="password" type="password" class="validate">
+                        <label for="password">Password</label>
+                      </div>
+                    </div>
+
+                  </form>
+                </div>
+                <hr>
+                <div> 
+                  <p class="right-align">-or- Login with...</p>
+                    <p>
+                      <a href="/auth/Facebook" class="btn waves-effect waves-light btn-large blue lighten-1">
+                        <i class="fa fa-facebook-square fa-4x left" aria-hidden="true"></i>Facebook</a>
+                    </p>
+                    <p>
+                      <a href="/auth/twitter" class="btn waves-effect waves-light btn-large blue darken-3">
+                        <i class="fa fa-twitter-square fa-4x left" aria-hidden="true"></i>Twitter</a>
+                    </p>
+                    <p>
+                      <a href="/auth/google" class="btn waves-effect waves-light btn-large red lighten-1">
+                        <i class="fa fa-google-plus-square fa-4x left" aria-hidden="true"></i>Google+</a>
+                    </p>
+                
+                </div>
+                <br>
+                <hr>
+                <p>
+                  <a href="emailSignup"><i class="material-icons left">library_books</i>e-Mail Register</a>
+                </p>
+              </div>
+            </div>     
     </body>
   </html>
         

@@ -80,7 +80,7 @@ var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-
+var modRewrite = require('connect-modrewrite');
 
 mongoose.connect('mongodb://localhost/recipes');
 
@@ -106,6 +106,9 @@ app.use(passport.session());
 require('./passport.config')(passport);
 
 
+app.use(modRewrite([
+    '^/recipe/(.*)$ /index.html#!/recipe/$1 [L]'
+  ]))
 /******************/
 //     ROUTES
 /******************/
@@ -147,8 +150,8 @@ app.get('/auth/user', function(req,res,next){
 	res.json(req.user);
 });
 
-//console.log(__dirname);
-app.use(express.static(__dirname+'/src'));
+console.log(__dirname);
+app.use(express.static(__dirname+'/src', { redirect: false }));
 
 app.use('/recipes/search', function(req,res){
 	res.json(results);
@@ -165,8 +168,13 @@ app.use('/recipes/searchbyid', function(req,res){
 app.use('/recipes/searchByCateg', function(req,res){
 	res.json(results);
 });
-
-
+/*
+app.get('*',function(req,res){
+	console.log(req.originalUrl);
+	res.sendFile("/src/index.html", { root: __dirname });
+	//res.redirect("/#!"+req.originalUrl);
+})
+*/
 app.listen(process.env.PORT || 3000, function(){
 	console.log('listening.... on :3000')
 })
