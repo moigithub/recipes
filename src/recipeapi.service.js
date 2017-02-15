@@ -1,18 +1,7 @@
 
 angular.module('RecipeCoreAPI', ['ngResource'])
 	.service('RecipeCoreService', function($resource){
-		return $resource('recipe/:recipeid',{recipeid: '@id'}, {
-			update: {
-				method: 'PUT',
-				headers: {authToken: 'token'}
-			}
-		})
-	})
-	.service('RecipeUserService', function($resource){
-		return $resource('recipe/:recipeid/user/:userid',{
-			recipeid: '@id',
-			userid: '@userid'
-		}, {
+		return $resource('recipes/:recipeid',{recipeid: '@id'}, {
 			update: {
 				method: 'PUT',
 				headers: {authToken: 'token'}

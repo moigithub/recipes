@@ -1,20 +1,23 @@
 
 angular.module('RecipeApp')
-	.controller('NewRecipeController', function NewRecipeController( UserService, RecipeUserService ){
+	.controller('NewRecipeController', function NewRecipeController( UserService, RecipeCoreService ){
 		var vm = this;
 
 		vm.save = function(){
 			console.log(vm.form);
 			console.log(vm.recipe);
 
-			var newRecipe = new RecipeUserService({
-				Name: vm.recipe.name,
-				Ingredients: vm.recipe.ingredients.split(","),
-				Preparation: vm.recipe.preparation,
-				Category: vm.recipe.categories.split(","),
-				Likes: 0,
-				UserId: UserService.user._id});
-			newRecipe.$save();
+			var newRecipe = new RecipeCoreService({
+				name: vm.recipe.name,
+				ingredients: vm.recipe.ingredients.split(","),
+				preparation: vm.recipe.preparation,
+				category: vm.recipe.categories.split(","),
+				likes: 0,
+				userid: UserService.user._id});
+			
+			newRecipe.$save(function(){
+				//success
+			});
 		}
 	});
 
