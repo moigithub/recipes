@@ -8,7 +8,7 @@ var recipeSchema = mongoose.Schema({
 	category: Array,
 	likes: {type: Number, default:0},
 	date: { type: Date, default: Date.now },
-	userId: mongoose.Schema.Types.ObjectId
+	userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 });
 
 module.exports = mongoose.model('Recipe', recipeSchema);

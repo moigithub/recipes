@@ -74,26 +74,32 @@ var results= [
 var express = require('express');
 var router = express.Router();
 var Recipe = require('./Recipe.model.js');
-
+var User = require('./User.model.js');
 ////////////////
 
 
 router.get('/', function(req,res){
-	Recipe.find(function (err, recipes) {
+	Recipe.find()
+		.populate('userId')
+		.exec(function (err, recipes) {
         if(err) { return handleError(res, err); }
         return res.status(200).json(recipes);
     });
 });
 
 router.get('/searchbyid/:id', function(req,res){
-    Recipe.findById(req.params.id, function (err, recipe) {
+    Recipe.findById(req.params.id)
+		.populate('userId')
+		.exec( function (err, recipe) {
         if(err) { return handleError(res, err); }
         return res.status(200).json(recipe);
     });
 });
 
 router.get('/search/:name', function(req,res){
-    Recipe.find({name: {$regex: req.params.name}}, function (err, recipe) {
+    Recipe.find({name: {$regex: req.params.name}})
+		.populate('userId')
+		.exec( function (err, recipe) {
         if(err) { return handleError(res, err); }
         return res.status(200).json(recipe);
     });
@@ -101,7 +107,9 @@ router.get('/search/:name', function(req,res){
 
 // recipe by user
 router.get('/user/:id', function(req, res) {
-    Recipe.find({userId: req.params.id}, function (err, recipe) {
+    Recipe.find({userId: req.params.id})
+		.populate('userId')
+		.exec( function (err, recipe) {
         if(err) { return handleError(res, err); }
         return res.status(200).json(recipe);
     });
@@ -160,7 +168,9 @@ router.get('/random', function(req,res){
     function(err, recipe) {
     	if (err) { return handleError(res, err); }
        // Result is an array of documents
-       return res.status(200).json(recipe[0]);
+       User.populate(recipe, {path: 'userId'}, function(err, populated){
+       	return res.status(200).json(populated[0]);
+       })
     } )
 });
 
@@ -182,7 +192,9 @@ router.get('/top10', function(req,res){
 // find OR
 router.get('/searchByCateg/:categList', function(req,res){
 	var categList = req.params.categList.split(",");
-    Recipe.find({category:{$in: categList}}, function (err, recipe) {
+    Recipe.find({category:{$in: categList}})
+		.populate('userId')
+		.exec( function (err, recipe) {
         if(err) { return handleError(res, err); }
         return res.status(200).json(recipe);
     });
@@ -191,7 +203,9 @@ router.get('/searchByCateg/:categList', function(req,res){
 //strict AND
 router.get('/searchByCategS/:categList', function(req,res){
 	var categList = req.params.categList.split(",");
-    Recipe.find({category:{ $all: [categList]}}, function (err, recipe) {
+    Recipe.find({category:{ $all: [categList]}})
+		.populate('userId')
+		.exec( function (err, recipe) {
         if(err) { return handleError(res, err); }
         return res.status(200).json(recipe);
     });
