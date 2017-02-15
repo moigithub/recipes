@@ -1,6 +1,18 @@
+/*
 var fakeUser = {
-	displayName : 'Moises',
-	token: '54ghj4f6ghjf54h54'
+  "_id": "123",
+  "__v": 0,
+  "facebook": {
+    "email": "mcarlosman@live.com",
+    "name": "Moises Man",
+    "token": "adsfsadf",
+    "id": "123123"
+  }
+};
+*/
+var fakeUser = {
+		displayName: 'Moises Man',
+		id:"123"
 };
 
 describe('Auth Controller', function(){
@@ -15,21 +27,23 @@ describe('Auth Controller', function(){
 		$location = _$location_;
 	}));
 
-	it('set user variable', function(){
+	it('set user varible', function(){
 		spyOn(UserService, 'getUser').and.callFake(function(){
 			var defer = $q.defer();
 			defer.resolve(fakeUser);
 			return defer.promise;
 		});
+
 		
 		$this = $controller('AuthController',{UserService:UserService},{});
 		$rootScope.$apply();
+	//dump($this.user)
 		expect($this.user).toEqual(fakeUser);
 	});
 
 	it('should redirect to /', function(){
 		$location.path('/boo');
-		dump($location.path());
+	//	dump($location.path());
 		$this = $controller('AuthController',{UserService:UserService},{});
 	//	$rootScope.$apply();
 		expect($location.path()).toEqual('/');

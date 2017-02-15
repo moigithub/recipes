@@ -13,7 +13,8 @@ angular.module('RecipeApp')
 				preparation: vm.recipe.preparation,
 				category: vm.recipe.categories.split(","),
 				likes: 0,
-				userid: UserService.user._id});
+				photoUrl: vm.recipe.photoUrl,
+				userId: UserService.getCurrentUser().id});
 			
 			newRecipe.$save(function(){
 				//success

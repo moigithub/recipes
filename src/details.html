@@ -2,24 +2,25 @@
 	<div class="card-panel">
     <div class="row">
       <div class="col s12 m5">
-        <img materialboxed ng-src="{{detail.result.photoUrl}}" class="responsive-img materialboxed z-depth-2" data-caption="{{main.randomRecipe.Name}}" alt="{{main.randomRecipe.Name}}">
+        <img materialboxed ng-src="{{detail.result.photoUrl}}" class="responsive-img materialboxed z-depth-2" data-caption="{{main.randomRecipe.name}}" alt="{{main.randomRecipe.name}}">
         <br>
-        <div class="chip" ng-repeat="category in detail.result.Category">
+        <div class="chip" ng-repeat="category in detail.result.category">
         	<a href="recipes/categ?name={{category}}" internal>{{category}}</a>
         </div>
+        <div>by {{detail.result.userId}}</div>
 		<br>
 		
         <div>
           <a class="btn-floating waves-effect waves-light green"><i class="material-icons">thumb_up</i></a> 
-          <span>{{detail.result.Likes}}</span>
+          <span>{{detail.result.likes}}</span>
           <a class="waves-effect waves-light btn right blue"><i class="material-icons left">receipt</i>Tweet</a>
         </div>
       </div>
       <div class="col s12 m7">
-        <h3>{{detail.result.Name}}</h3>
-        <p>{{detail.result.Preparation}}</p>
+        <h3>{{detail.result.name}}</h3>
+        <p>{{detail.result.preparation}}</p>
         <ul>
-        	<li ng-repeat="ing in detail.result.Ingredients">{{ing}}</li>
+        	<li ng-repeat="ing in detail.result.ingredients">{{ing}}</li>
         </ul>
 
 

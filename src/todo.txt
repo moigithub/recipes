@@ -7,7 +7,7 @@ landing page
      -CRUD recipes
 -most voted/likes (only logged ppl can vote)
 - my Like list
-- my recipes
+- my recipes (ya)
 
 /search page (ya)
 /details page (ya)

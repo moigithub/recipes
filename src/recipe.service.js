@@ -48,6 +48,18 @@ angular.module('RecipeAPI',[])
 			return defer.promise;
 		}
 
+		this.searchRecipeByUserId = function(userId){
+			var defer = $q.defer();
+			$http.get('/recipes/user/'+userId)
+				.then(function(recipes){
+					defer.resolve(recipes.data);
+				})
+				.catch(function(err){
+					defer.reject();
+				});
+			return defer.promise;
+		}
+
 		this.getTop10 = function(){
 			var defer = $q.defer();
 			$http.get('/recipes/top10')

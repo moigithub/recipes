@@ -16,29 +16,30 @@ describe('RecipeApi service', function(){
 
 		it('save data', function(){
 			var expectedData = function(data){
-	//			var postData = '{"RecipeID":1,"Name":"some food with name","Ingredients":["one","two","three"],"Preparation":"big chunk of text","Category":["pasta","postre"],"Likes":99,"UserId":"user11"}';
-				return angular.fromJson(data).RecipeID === 1;
+	//			var postData = '{"_id":1,"Name":"some food with name","Ingredients":["one","two","three"],"Preparation":"big chunk of text","Category":["pasta","postre"],"Likes":99,"UserId":"user11"}';
+				return angular.fromJson(data)._id === 1;
 			}
 
 			$httpBackend.expectPOST(/./, expectedData).respond(201);
 
 			var newRecipe = new RecipeCoreService({
-				RecipeID: 1,
-				Name: 'some food with name',
-				Ingredients: ['one','two','three'],
-				Preparation: 'big chunk of text',
-				Category: ['pasta', 'postre'],
-				Likes: 99,
-				UserId: 'user11'});
+				_id: 1,
+				name: 'some food with name',
+				ingredients: ['one','two','three'],
+				preparation: 'big chunk of text',
+				category: ['pasta', 'postre'],
+				likes: 99,
+				photourl:'photo',
+				userId: 'user11'});
 			newRecipe.$save();
 
 			expect($httpBackend.flush).not.toThrow();
 		});
 
 		it('get data with id', function(){
-			$httpBackend.expectGET('recipe?RecipeID=1').respond(200);
+			$httpBackend.expectGET('recipes?_id=1').respond(200);
 
-			var recipe = RecipeCoreService.get({RecipeID : 1});
+			var recipe = RecipeCoreService.get({_id : 1});
 			expect($httpBackend.flush).not.toThrow();
 		});
 
@@ -46,21 +47,22 @@ describe('RecipeApi service', function(){
 			var expectedData = function(data){
 				//dump(data);
 	//			var postData = '{"RecipeID":1,"Name":"some food with name","Ingredients":["one","two","three"],"Preparation":"big chunk of text","Category":["pasta","postre"],"Likes":99,"UserId":"user11"}';
-				return angular.fromJson(data).RecipeID === 1;
+				return angular.fromJson(data)._id === 1;
 			}
 
 
 
-			$httpBackend.expectPUT('recipe', expectedData).respond(200);
+			$httpBackend.expectPUT('recipes', expectedData).respond(200);
 
 			var newRecipe = new RecipeCoreService({
-				RecipeID: 1,
-				Name: 'some food with name',
-				Ingredients: ['one','two','three'],
-				Preparation: 'big chunk of text',
-				Category: ['pasta', 'postre'],
-				Likes: 99,
-				UserId: 'user11'});
+				_id: 1,
+				name: 'some food with name',
+				ingredients: ['one','two','three'],
+				preparation: 'big chunk of text',
+				category: ['pasta', 'postre'],
+				likes: 99,
+				photourl:'photo',
+				userId: 'user11'});
 			newRecipe.$update();
 
 			expect($httpBackend.flush).not.toThrow();		
@@ -80,13 +82,14 @@ describe('RecipeApi service', function(){
 				return true;
 			}
 			var recipe = {
-				RecipeID: 1,
-				Name: 'some food with name',
-				Ingredients: ['one','two','three'],
-				Preparation: 'big chunk of text',
-				Category: ['pasta', 'postre'],
-				Likes: 99,
-				UserId: 'user11'};
+				_id: 1,
+				name: 'some food with name',
+				ingredients: ['one','two','three'],
+				preparation: 'big chunk of text',
+				category: ['pasta', 'postre'],
+				likes: 99,
+				photourl:'photo',
+				userId: 'user11'};
 
 			$httpBackend.whenGET(checkUrl,checkHeaders).respond(200);
 			$httpBackend.expectPOST(checkUrl,/./,checkHeaders).respond(200);

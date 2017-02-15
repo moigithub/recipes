@@ -86,14 +86,14 @@ router.get('/', function(req,res){
 });
 
 router.get('/searchbyid/:id', function(req,res){
-    Recipe.find({_id: req.params.id}, function (err, recipe) {
+    Recipe.findById(req.params.id, function (err, recipe) {
         if(err) { return handleError(res, err); }
         return res.status(200).json(recipe);
     });
 });
 
 router.get('/search/:name', function(req,res){
-    Recipe.find({name: req.params.name}, function (err, recipe) {
+    Recipe.find({name: {$regex: req.params.name}}, function (err, recipe) {
         if(err) { return handleError(res, err); }
         return res.status(200).json(recipe);
     });
@@ -108,6 +108,9 @@ router.get('/user/:id', function(req, res) {
 });
 
 router.post('/', function(req,res){
+	console.log("new recipe", req.body);
+
+	
 	Recipe.create(req.body, function(err, recipe) {
         if(err) { return handleError(res, err); }
         return res.status(201).json(recipe);
@@ -152,17 +155,17 @@ function handleError(res, err) {
 
 router.get('/random', function(req,res){
 	
-	Recommend.aggregate(
+	Recipe.aggregate(
     [ { $sample: { size: 1 } } ],
     function(err, recipe) {
     	if (err) { return handleError(res, err); }
        // Result is an array of documents
-       return res.status(200).json(recipe);
+       return res.status(200).json(recipe[0]);
     } )
 });
 
 router.get('/top10', function(req,res){
-	Recommend.aggregate(
+	Recipe.aggregate(
     [
         // Sorting pipeline
         { "$sort": { "likes": -1 } },

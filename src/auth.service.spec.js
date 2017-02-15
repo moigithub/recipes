@@ -1,6 +1,17 @@
 var fakeUser = {
-	displayName : 'Moises',
-	token: '54ghj4f6ghjf54h54'
+	 "_id": "123",
+	  "__v": 0,
+	  "facebook": {
+	    "email": "mcarlosman@live.com",
+	    "name": "Moises Man",
+	    "token": "adsfsadf",
+	    "id": "123123"
+	  }
+};
+
+var expectedUser = {
+	id:"123",
+	displayName:"Moises Man"
 };
 
 describe('auth service', function(){
@@ -20,10 +31,30 @@ describe('auth service', function(){
 			user = data;
 		});
 		$httpBackend.flush();
-		expect(user).toEqual(fakeUser);
+		expect(user).toEqual(expectedUser);
 	});
 
-	it('getUser should return user data', function(){
+	it('getUserById should return user data', function(){
+		$httpBackend.whenGET('/auth/user/123').respond(200, fakeUser);
+		var user;
+		UserService.getUserById('123').then(function(data){
+			user = data;
+		});
+		$httpBackend.flush();
+		expect(user).toEqual(expectedUser);
+	});
+
+	it('getCurrentUser should return saved data', function(){
+		$httpBackend.whenGET('/auth/user').respond(200, fakeUser);
+		var user;
+		UserService.getUser().then(function(data){
+			user = data;
+		});
+		$httpBackend.flush();
+		expect(UserService.getCurrentUser()).toEqual(user);
+	});
+
+	it('getUser should save data on localstorage', function(){
 		$httpBackend.whenGET('/auth/user').respond(200, fakeUser);
 		var user;
 		UserService.getUser().then(function(data){
@@ -33,18 +64,19 @@ describe('auth service', function(){
 		spyOn($window.localStorage, 'setItem');
 
 		$httpBackend.flush();
-		expect(user).toEqual(fakeUser);
-		expect(UserService.user).toEqual(fakeUser);
+		expect(user).toEqual(expectedUser);
+		expect(UserService.getCurrentUser()).toEqual(expectedUser);
 
-		expect($window.localStorage.setItem).toHaveBeenCalledWith('user',JSON.stringify(fakeUser));
-		expect($window.localStorage.user).toEqual(JSON.stringify(fakeUser));
+		expect($window.localStorage.setItem).toHaveBeenCalled();
+		expect(JSON.parse($window.localStorage.user).id).toEqual(expectedUser.id);
+		expect(JSON.parse($window.localStorage.user).displayName).toEqual(expectedUser.displayName);
 	});
 
 	it('logout should clear storage n reset user variable', function(){
 		spyOn($window.localStorage, 'clear');
 		UserService.logout();
 		expect($window.localStorage.clear).toHaveBeenCalled();
-		expect(UserService.user).toEqual({});
+		expect(UserService.getCurrentUser()).toEqual(undefined);
 	});
 
 	it('isLogged should return boolean value', function(){

@@ -135,6 +135,18 @@ describe('Recipe Service', function(){
 		expect(recipe).toEqual(results);
 	});
 
+	it('should search recipe by user', function(){
+		$httpBackend.whenGET('/recipes/user/123').respond(200, results);
+
+		var recipe;
+		recipeAPI.searchRecipeByUserId('123')
+			.then(function(data){
+				recipe = data;
+			});
+		$httpBackend.flush();
+		expect(recipe).toEqual(results);
+	});
+
 	it('should get top 10 recipes', function(){
 		$httpBackend.whenGET('/recipes/top10').respond(200, results);
 

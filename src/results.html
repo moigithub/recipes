@@ -10,17 +10,18 @@
 		<div class="col s12 m4 l3" ng-repeat="recipe in search.results">
 			<div class="card medium">
 		    	<div class="card-image">
-			      <img class="responsive-img" ng-src="{{recipe.photoUrl}}" alt="{{main.randomRecipe.Name}}">
-                  <span class="showonhover card-title black accent-3 right-align">{{recipe.Name}}</span>
+			      <img class="responsive-img" ng-src="{{recipe.photoUrl}}" alt="{{main.randomRecipe.name}}">
+                  <span class="showonhover card-title black accent-3 right-align">{{recipe.name}}</span>
                 </div>
                   
 			    <div class="card-content">
-			      <div class="chip" ng-repeat="category in recipe.Category">
+			      <div class="chip" ng-repeat="category in recipe.category">
 		        	<a href="recipes/categ?name={{category}}" internal>{{category}}</a>
 		          </div>
+		          <div>by {{recipe.userId}}</div>
 			    </div>
                 <div class="card-action">
-                    <a href="recipe/details?id={{recipe.RecipeID}}" internal class="btn waves-effect waves-block waves-light">Show Recipe</a>
+                    <a href="recipe/details?id={{recipe._id}}" internal class="btn waves-effect waves-block waves-light">Show Recipe</a>
                 </div>
 		  	</div>
 		</div>
