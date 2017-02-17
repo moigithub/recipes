@@ -13,6 +13,7 @@ var session = require('express-session');
 
 mongoose.connect('mongodb://localhost/recipes');
 mongoose.Promise = global.Promise;
+mongoose.set('debug', true);
 
 app.use(morgan('dev'));
 app.use(cookieParser());

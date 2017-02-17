@@ -94,6 +94,79 @@ router.get('/', function(req,res){
     });
 });
 
+
+router.get('/random', function(req,res){
+	
+	Recipe.aggregate( [ 
+			{ $sample: { size: 10 } } , 
+			{ $lookup: {
+				from:'users',
+				localField:'userId',
+				foreignField:'_id',
+				as:'userId'
+			}}
+		])
+	.exec( function(err, recipe) {
+    	if (err) { return handleError(res, err); }
+    	var tmp = Object.assign({},recipe[Math.floor(Math.random()*10)]);
+    	tmp.userId = tmp.userId[0];
+       	return res.status(200).json(rebuildRecipe(tmp));
+    });
+});
+
+router.get('/top10', function(req,res){
+	Recipe.aggregate(
+    [
+        // Sorting pipeline
+        { "$sort": { "likes": -1 } },
+        // Optionally limit results
+        { "$limit": 10 }
+    ],
+    function(err, recipe) {
+    	if (err) { return handleError(res, err); }
+       // Result is an array of documents
+
+       return res.status(200).json(recipe);
+    })
+});
+
+// find OR
+router.get('/searchByCateg/:categList', function(req,res){
+	var categList = req.params.categList.split(",");
+    Recipe.find({category:{$in: categList}})
+		.populate('userId')
+		.lean()
+		.exec( function (err, recipes) {
+        if(err) { return handleError(res, err); }
+
+        var result = recipes.map(function(recipe){
+        	return rebuildRecipe(recipe);
+        });
+
+        
+        return res.status(200).json(result);
+    });
+});
+
+//strict AND
+router.get('/searchByCategS/:categList', function(req,res){
+	var categList = req.params.categList.split(",");
+    Recipe.find({category:{ $all: [categList]}})
+		.populate('userId')
+		.lean()
+		.exec( function (err, recipes) {
+        if(err) { return handleError(res, err); }
+
+        var result = recipes.map(function(recipe){
+        	return rebuildRecipe(recipe);
+        });
+
+        
+        return res.status(200).json(result);
+    });
+});
+
+
 router.get('/:id', function(req,res){
     Recipe.findById(req.params.id)
 		.populate('userId')
@@ -182,69 +255,6 @@ router.put('/:id',  function(req, res) {
 ////////////
 //searchByName
 
-router.get('/random', function(req,res){
-	
-	Recipe.aggregate([
-		{$limit:1}
-	],
-    function(err, recipe) {
-    	if (err) { return handleError(res, err); }
-
-       	return res.status(200).json(recipe);
-    });
-});
-
-router.get('/top10', function(req,res){
-	Recipe.aggregate(
-    [
-        // Sorting pipeline
-        { "$sort": { "likes": -1 } },
-        // Optionally limit results
-        { "$limit": 10 }
-    ],
-    function(err, recipe) {
-    	if (err) { return handleError(res, err); }
-       // Result is an array of documents
-
-       return res.status(200).json(recipe);
-    })
-});
-
-// find OR
-router.get('/searchByCateg/:categList', function(req,res){
-	var categList = req.params.categList.split(",");
-    Recipe.find({category:{$in: categList}})
-		.populate('userId')
-		.lean()
-		.exec( function (err, recipes) {
-        if(err) { return handleError(res, err); }
-
-        var result = recipes.map(function(recipe){
-        	return rebuildRecipe(recipe);
-        });
-
-        
-        return res.status(200).json(result);
-    });
-});
-
-//strict AND
-router.get('/searchByCategS/:categList', function(req,res){
-	var categList = req.params.categList.split(",");
-    Recipe.find({category:{ $all: [categList]}})
-		.populate('userId')
-		.lean()
-		.exec( function (err, recipes) {
-        if(err) { return handleError(res, err); }
-
-        var result = recipes.map(function(recipe){
-        	return rebuildRecipe(recipe);
-        });
-
-        
-        return res.status(200).json(result);
-    });
-});
 
 
 module.exports = router;
