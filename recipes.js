@@ -108,7 +108,7 @@ router.get('/random', function(req,res){
 		])
 	.exec( function(err, recipe) {
     	if (err) { return handleError(res, err); }
-    	var tmp = Object.assign({},recipe[Math.floor(Math.random()*10)]);
+    	var tmp = Object.assign({},recipe[Math.floor(Math.random()*recipe.length)]);
     	tmp.userId = tmp.userId[0];
        	return res.status(200).json(rebuildRecipe(tmp));
     });
@@ -167,20 +167,6 @@ router.get('/searchByCategS/:categList', function(req,res){
 });
 
 
-router.get('/:id', function(req,res){
-    Recipe.findById(req.params.id)
-		.populate('userId')
-		.lean() //transform in a plain object
-		.exec( function (err, recipe) {
-        if(err) { return handleError(res, err); }
-
-        //this return a single object
-        //mutate it 
-
-        return res.status(200).json(rebuildRecipe(recipe));
-    });
-});
-
 router.get('/search/:name', function(req,res){
     Recipe.find({name: {$regex: req.params.name}})
 		.populate('userId')
@@ -210,6 +196,22 @@ router.get('/user/:id', function(req, res) {
 
         
         return res.status(200).json(result);;
+    });
+});
+
+router.get('/:id', function(req,res){
+    Recipe.findById(req.params.id)
+		.populate('userId')
+		.lean() //transform in a plain object
+		.exec( function (err, recipe) {
+        if(err) { return handleError(res, err); }
+
+        //this return a single object
+        //mutate it 
+        var result = rebuildRecipe(recipe);
+    console.log(result)
+
+        return res.status(200).json(result);
     });
 });
 

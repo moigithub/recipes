@@ -79,21 +79,13 @@ app.get('/auth/twitter/callback', passport.authenticate('twitter', {
 	failureRedirect : '/'
 }));
 
-app.get('/auth/user', function(req,res,next){
-	var userData = {};
-	if(req.user){
-		userData.id = req.user._id;
-		userData.displayName = req.user.showName;
-	};
-	res.json(userData);
-});
+app.use('/api/user', require('./users'));
+app.use('/recipes', require('./recipes'));
+
+
 
 console.log(__dirname);
 app.use(express.static(__dirname+'/src', { redirect: false }));
-
-
-
-app.use('/recipes', require('./recipes'));
 
 
 

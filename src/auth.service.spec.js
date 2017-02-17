@@ -19,7 +19,7 @@ describe('auth service', function(){
 	}));
 
 	it('getUser should return user data', function(){
-		$httpBackend.whenGET('/auth/user').respond(200, fakeUser);
+		$httpBackend.whenGET('/api/user').respond(200, fakeUser);
 		var user;
 		UserService.getUser().then(function(data){
 			user = data;
@@ -29,7 +29,7 @@ describe('auth service', function(){
 	});
 
 	it('getUserById should return user data', function(){
-		$httpBackend.whenGET('/auth/user/123').respond(200, fakeUser);
+		$httpBackend.whenGET('/api/user/123').respond(200, fakeUser);
 		var user;
 		UserService.getUserById('123').then(function(data){
 			user = data;
@@ -39,7 +39,7 @@ describe('auth service', function(){
 	});
 
 	it('getCurrentUser should return saved data', function(){
-		$httpBackend.whenGET('/auth/user').respond(200, fakeUser);
+		$httpBackend.whenGET('/api/user').respond(200, fakeUser);
 		var user;
 		UserService.getUser().then(function(data){
 			user = data;
@@ -49,7 +49,7 @@ describe('auth service', function(){
 	});
 
 	it('getUser should save data on localstorage', function(){
-		$httpBackend.whenGET('/auth/user').respond(200, fakeUser);
+		$httpBackend.whenGET('/api/user').respond(200, fakeUser);
 		var user;
 		UserService.getUser().then(function(data){
 			user = data;

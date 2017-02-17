@@ -30,16 +30,16 @@
 
 describe('search by user controller', function(){
 	var  $httpBackend;
-	var $scope, $location, $q;
+	var $scope, $routeParams, $q;
 	var $controller, $rootScope, UserService;
 	
 	beforeEach(module('RecipeApp'));
 	beforeEach(module('RecipeAPI'));
-	beforeEach(inject(function(_UserService_,_$controller_, _$location_, _$q_, _RecipeService_, _$rootScope_){
+	beforeEach(inject(function(_$routeParams_, _UserService_,_$controller_, _$q_, _RecipeService_, _$rootScope_){
 		$controller = _$controller_;
+		$routeParams = _$routeParams_;
 		UserService = _UserService_;
 		$q = _$q_;
-		$location = _$location_;
 		RecipeService = _RecipeService_;
 		$rootScope = _$rootScope_;
 		///$scope = {};
@@ -58,9 +58,11 @@ describe('search by user controller', function(){
 			return defer.promise;
 		});
 
-		$location.search('userId',fakeUser.id);
-		var $this = $controller('SearchByUserController', {$location:$location, UserService:UserService, RecipeService: RecipeService});
+//		$location.path('/myRecipes/'+fakeUser.id);
+		$routeParams.userid=fakeUser.id;
+		var $this = $controller('SearchByUserController', {$routeParams:$routeParams, UserService:UserService, RecipeService: RecipeService});
 		$rootScope.$apply();
+	dump("test path",$routeParams);
 
 		expect($this.results[0].Name).toBe(results[0].Name);
 		expect($this.results[1].Name).toBe(results[1].Name);
@@ -80,8 +82,9 @@ describe('search by user controller', function(){
 			return defer.promise;
 		});
 		
-		$location.search('userId',null);
-		var $this = $controller('SearchByUserController', {$location:$location, UserService:UserService, RecipeService: RecipeService});
+		//$location.search('userId',null);
+		$routeParams.userid=null;
+		var $this = $controller('SearchByUserController', {UserService:UserService, RecipeService: RecipeService});
 		$rootScope.$apply();
 
 		expect($this.results[0].Name).toBe(results[0].Name);
@@ -108,8 +111,9 @@ describe('search by user controller', function(){
 		});
 
 
-		$location.search('userId',fakeUser.id);
-		var $this = $controller('SearchByUserController', {$location:$location, UserService:UserService, RecipeService: RecipeService});
+		//$location.search('userId',fakeUser.id);
+		$routeParams.userid=fakeUser.id;
+		var $this = $controller('SearchByUserController', { UserService:UserService, RecipeService: RecipeService});
 		$rootScope.$apply();
 
 		expect($this.results[0].Name).toBe(results[0].Name);
@@ -128,8 +132,8 @@ describe('search by user controller', function(){
 		});
 		spyOn(UserService, 'getCurrentUser').and.returnValue(fakeUser);
 
-		$location.search('userId',fakeUser.id);
-		var $this = $controller('SearchByUserController', {$location:$location, RecipeService: RecipeService});
+		$routeParams.userid=fakeUser.id;
+		var $this = $controller('SearchByUserController', { RecipeService: RecipeService});
 		$rootScope.$apply();
 
 		expect($this.errorMessage).toBe('Error!');

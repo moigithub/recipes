@@ -12,15 +12,15 @@ angular.module('UserServiceAPI',[])
 
 		vm.getCurrentUser = function(){
 			var user = $window.localStorage.getItem('user');
-			console.log(">>>>>> ",user);
+			console.log("auth.service::getCurrentUser >>>>>> ",user);
 			return user ? JSON.parse(user): null;
 		}
 
 		vm.getUser = function(){
 			var defer = $q.defer();
-			$http.get('/auth/user').then(function(data){
+			$http.get('/api/user').then(function(data){
 				var currentUser = data.data;
-console.log("auth service", data);
+console.log("auth service::getUser", data);
 				if(currentUser.id) {
 					$window.localStorage.setItem('user', JSON.stringify(currentUser));
 				}
@@ -40,7 +40,8 @@ console.log("auth service", data);
 		//TODO: getUserById
 		vm.getUserById = function(userId){
 			var defer = $q.defer();
-			$http.get('/auth/user/'+userId).then(function(data){
+			$http.get('/api/user/'+userId).then(function(data){
+console.log("auth.service::getUserById", data)				;
 				var user = data.data;
 				defer.resolve(user);
 

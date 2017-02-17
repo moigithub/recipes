@@ -18,6 +18,7 @@ angular.module('RecipeApp')
 			
 			newRecipe.$save(function(){
 				//success
+				
 			});
 		}
 	});

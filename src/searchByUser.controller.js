@@ -1,18 +1,23 @@
 angular.module('RecipeApp')
 	.controller('SearchByUserController', 
-		function SearchByUserController( $location, UserService, RecipeService, RecipeCoreService){
+		function SearchByUserController( $routeParams, $location, UserService, RecipeService, RecipeCoreService){
 		var vm = this;
 
 //if no user specified.. get the logged user recipes
 
-		var userId = $location.search().userId;
+	//	var userId = $location.search().userId;
+
+		var userId = $routeParams.userid;
+console.log("searchbyuser path", userId);
 		if(!userId){
+
 			var currUser = UserService.getCurrentUser();
 console.log("search by user controller ,curruser", currUser, userId);
 			if(currUser && currUser.hasOwnProperty('id')){
 				userId = currUser.id;
 				vm.query = currUser.displayName;
 			}
+			
 		} else {
 			UserService.getUserById(userId)
 				.then(function(user){
@@ -38,6 +43,7 @@ console.log("getuserbyid searchbyuser controller",user);
 			console.log("delete recipe", recipeId);
 			RecipeCoreService.delete({id: recipeId},function(data){
 				console.log("delete recipe",data);
+				vm.results = vm.results.filter(function(r){return r._id !== recipeId});
 			});
 		}
 		

@@ -7,7 +7,7 @@
         <div class="chip" ng-repeat="category in detail.result.category">
         	<a href="recipes/categ?name={{category}}" internal>{{category}}</a>
         </div>
-        <div>by {{detail.result.userId}}</div>
+        <div>by <a href="/myRecipes/{{detail.result.userId._id}}" internal>{{detail.result.userId.showName}}</a></div>
 		<br>
 		
         <div>

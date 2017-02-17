@@ -18,7 +18,7 @@
 			      <div class="chip" ng-repeat="category in recipe.category">
 		        	<a href="recipes/categ?name={{category}}" internal>{{category}}</a>
 		          </div>
-		          <div>by {{recipe.userId}}</div>
+		          <div>by <a href="/myRecipes/{{recipe.userId._id}}" internal>{{recipe.userId.showName}}</a></div>
 			    </div>
                 <div class="card-action">
                     <a href="recipe/details?id={{recipe._id}}" internal class="btn waves-effect waves-block waves-light">Show Recipe</a>
