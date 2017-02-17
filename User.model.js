@@ -24,7 +24,31 @@ var userSchema = mongoose.Schema({
 		email : String,
 		name : String
 	}
+}
+, {
+  toObject: {
+  	virtuals: true
+  },
+  toJSON: {
+ 	 virtuals: true 
+  }
 });
+
+userSchema.virtual('showName')
+	.get(function(){
+
+		if(this.local && this.local.email){
+			return this.local.email;
+		} else if(this.twitter && this.twitter.displayName){
+			return this.twitter.displayName;
+		} else if(this.facebook && this.facebook.name){
+			return this.facebook.name;
+		} else if(this.google && this.google.name){
+			return this.google.name;
+		}
+
+		return "";
+	});
 
 userSchema.methods.generateHash = function(password){
 	return bcrypt.hashSync(passport, bcrypt.genSaltSync(8), null);

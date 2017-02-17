@@ -24,6 +24,8 @@ angular.module('RecipeAPI',[])
 			return defer.promise;
 		}
 
+///este creo q no deberia estar.. usar ngresource
+/*
 		this.searchRecipeById = function(id){
 			var defer = $q.defer();
 			$http.get('/recipes/searchById/'+id)
@@ -35,7 +37,7 @@ angular.module('RecipeAPI',[])
 				});
 			return defer.promise;
 		}
-
+*/
 		this.searchRecipeByCateg = function(categ){
 			var defer = $q.defer();
 			$http.get('/recipes/searchByCateg/'+categ)

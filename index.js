@@ -12,6 +12,7 @@ var session = require('express-session');
 //var modRewrite = require('connect-modrewrite');
 
 mongoose.connect('mongodb://localhost/recipes');
+mongoose.Promise = global.Promise;
 
 app.use(morgan('dev'));
 app.use(cookieParser());
@@ -78,7 +79,12 @@ app.get('/auth/twitter/callback', passport.authenticate('twitter', {
 }));
 
 app.get('/auth/user', function(req,res,next){
-	res.json(req.user);
+	var userData = {};
+	if(req.user){
+		userData.id = req.user._id;
+		userData.displayName = req.user.showName;
+	};
+	res.json(userData);
 });
 
 console.log(__dirname);

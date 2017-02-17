@@ -1,12 +1,6 @@
 var fakeUser = {
-	 "_id": "123",
-	  "__v": 0,
-	  "facebook": {
-	    "email": "mcarlosman@live.com",
-	    "name": "Moises Man",
-	    "token": "adsfsadf",
-	    "id": "123123"
-	  }
+	id:"123",
+	displayName:"Moises Man"
 };
 
 var expectedUser = {
@@ -73,10 +67,10 @@ describe('auth service', function(){
 	});
 
 	it('logout should clear storage n reset user variable', function(){
-		spyOn($window.localStorage, 'clear');
+		spyOn($window.localStorage, 'clear').and.callThrough();
 		UserService.logout();
 		expect($window.localStorage.clear).toHaveBeenCalled();
-		expect(UserService.getCurrentUser()).toEqual(undefined);
+		expect(UserService.getCurrentUser()).toEqual(null);
 	});
 
 	it('isLogged should return boolean value', function(){

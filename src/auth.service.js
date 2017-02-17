@@ -2,10 +2,7 @@ angular.module('UserServiceAPI',[])
 	.service('UserService', function($http, $q, $window){
 		var vm=this;
 
-		var currentUser ;
-
 		vm.logout = function(){
-			currentUser=undefined;
 			$window.localStorage.clear();
 		}
 
@@ -14,36 +11,21 @@ angular.module('UserServiceAPI',[])
 		}	
 
 		vm.getCurrentUser = function(){
-			return currentUser;
+			var user = $window.localStorage.getItem('user');
+			console.log(">>>>>> ",user);
+			return user ? JSON.parse(user): null;
 		}
 
 		vm.getUser = function(){
 			var defer = $q.defer();
 			$http.get('/auth/user').then(function(data){
-				data = data.data;
-				var user={};
-				if(data.hasOwnProperty('local')){
-					user.displayName = data.local.email;
-					user.id = data._id;
-				} else if(data.hasOwnProperty('twitter')){
-					user.displayName = data.twitter.displayName;
-					user.id = data._id;
-				} else if(data.hasOwnProperty('facebook')){
-console.log("auth facebook")					;
-					user.displayName = data.facebook.name;
-					user.id = data._id;
-				} else if(data.hasOwnProperty('google')){
-					user.displayName = data.google.name;
-					user.id = data._id;
-				}
-
-				currentUser = user;
-console.log("auth service",user, data);
+				var currentUser = data.data;
+console.log("auth service", data);
 				if(currentUser.id) {
 					$window.localStorage.setItem('user', JSON.stringify(currentUser));
 				}
 
-				defer.resolve(user);
+				defer.resolve(currentUser);
 
 			})
 			.catch(function(err){
@@ -59,22 +41,7 @@ console.log("auth service",user, data);
 		vm.getUserById = function(userId){
 			var defer = $q.defer();
 			$http.get('/auth/user/'+userId).then(function(data){
-				data = data.data;
-				var user={};
-				if(data.hasOwnProperty('local')){
-					user.displayName = data.local.email;
-					user.id = data._id;
-				} else if(data.hasOwnProperty('twitter')){
-					user.displayName = data.twitter.displayName;
-					user.id = data._id;
-				} else if(data.hasOwnProperty('facebook')){
-					user.displayName = data.facebook.name;
-					user.id = data._id;
-				} else if(data.hasOwnProperty('google')){
-					user.displayName = data.google.name;
-					user.id = data._id;
-				}
-
+				var user = data.data;
 				defer.resolve(user);
 
 			})

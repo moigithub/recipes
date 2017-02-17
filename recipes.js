@@ -81,27 +81,46 @@ var User = require('./User.model.js');
 router.get('/', function(req,res){
 	Recipe.find()
 		.populate('userId')
+		.lean()
 		.exec(function (err, recipes) {
         if(err) { return handleError(res, err); }
-        return res.status(200).json(recipes);
+
+        var result = recipes.map(function(recipe){
+        	return rebuildRecipe(recipe);
+        });
+
+        
+        return res.status(200).json(result);
     });
 });
 
-router.get('/searchbyid/:id', function(req,res){
+router.get('/:id', function(req,res){
     Recipe.findById(req.params.id)
 		.populate('userId')
+		.lean() //transform in a plain object
 		.exec( function (err, recipe) {
         if(err) { return handleError(res, err); }
-        return res.status(200).json(recipe);
+
+        //this return a single object
+        //mutate it 
+
+        return res.status(200).json(rebuildRecipe(recipe));
     });
 });
 
 router.get('/search/:name', function(req,res){
     Recipe.find({name: {$regex: req.params.name}})
 		.populate('userId')
-		.exec( function (err, recipe) {
+		.lean()
+		.exec( function (err, recipes) {
         if(err) { return handleError(res, err); }
-        return res.status(200).json(recipe);
+
+        var result = recipes.map(function(recipe){
+        	return rebuildRecipe(recipe);
+        });
+
+        
+        return res.status(200).json(result);
     });
 });
 
@@ -109,9 +128,15 @@ router.get('/search/:name', function(req,res){
 router.get('/user/:id', function(req, res) {
     Recipe.find({userId: req.params.id})
 		.populate('userId')
-		.exec( function (err, recipe) {
+		.lean()
+		.exec( function (err, recipes) {
         if(err) { return handleError(res, err); }
-        return res.status(200).json(recipe);
+        var result = recipes.map(function(recipe){
+        	return rebuildRecipe(recipe);
+        });
+
+        
+        return res.status(200).json(result);;
     });
 });
 
@@ -153,25 +178,20 @@ router.put('/:id',  function(req, res) {
   });
 });
 
-function handleError(res, err) {
-  return res.status(500).send(err);
-}
-
 
 ////////////
 //searchByName
 
 router.get('/random', function(req,res){
 	
-	Recipe.aggregate(
-    [ { $sample: { size: 1 } } ],
+	Recipe.aggregate([
+		{$limit:1}
+	],
     function(err, recipe) {
     	if (err) { return handleError(res, err); }
-       // Result is an array of documents
-       User.populate(recipe, {path: 'userId'}, function(err, populated){
-       	return res.status(200).json(populated[0]);
-       })
-    } )
+
+       	return res.status(200).json(recipe);
+    });
 });
 
 router.get('/top10', function(req,res){
@@ -185,6 +205,7 @@ router.get('/top10', function(req,res){
     function(err, recipe) {
     	if (err) { return handleError(res, err); }
        // Result is an array of documents
+
        return res.status(200).json(recipe);
     })
 });
@@ -194,9 +215,16 @@ router.get('/searchByCateg/:categList', function(req,res){
 	var categList = req.params.categList.split(",");
     Recipe.find({category:{$in: categList}})
 		.populate('userId')
-		.exec( function (err, recipe) {
+		.lean()
+		.exec( function (err, recipes) {
         if(err) { return handleError(res, err); }
-        return res.status(200).json(recipe);
+
+        var result = recipes.map(function(recipe){
+        	return rebuildRecipe(recipe);
+        });
+
+        
+        return res.status(200).json(result);
     });
 });
 
@@ -205,11 +233,44 @@ router.get('/searchByCategS/:categList', function(req,res){
 	var categList = req.params.categList.split(",");
     Recipe.find({category:{ $all: [categList]}})
 		.populate('userId')
-		.exec( function (err, recipe) {
+		.lean()
+		.exec( function (err, recipes) {
         if(err) { return handleError(res, err); }
-        return res.status(200).json(recipe);
+
+        var result = recipes.map(function(recipe){
+        	return rebuildRecipe(recipe);
+        });
+
+        
+        return res.status(200).json(result);
     });
 });
 
 
 module.exports = router;
+
+
+///helper
+function rebuildRecipe(recipeObj){
+
+    var newObj = Object.assign({},recipeObj);
+    if(recipeObj.userId.local && recipeObj.userId.local.email){
+		newObj.userId.showName = recipeObj.userId.local.email;
+        delete newObj.userId.local;
+	} else if(recipeObj.userId.twitter && recipeObj.userId.twitter.displayName){
+		newObj.userId.showName = recipeObj.userId.twitter.displayName;
+        delete newObj.userId.twitter;
+	} else if(recipeObj.userId.facebook && recipeObj.userId.facebook.name){
+		newObj.userId.showName = recipeObj.userId.facebook.name;
+        delete newObj.userId.facebook;
+	} else if(recipeObj.userId.google && recipeObj.userId.google.name){
+		newObj.userId.showName = recipeObj.userId.google.name;
+        delete newObj.userId.google;
+	}
+	return newObj;
+}
+
+function handleError(res, err) {
+  return res.status(500).send(err);
+}
+

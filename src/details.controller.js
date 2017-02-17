@@ -1,11 +1,12 @@
 angular.module('RecipeApp')
-	.controller('DetailsController', function DetailsController($location, RecipeService){
+	.controller('DetailsController', function DetailsController($location, RecipeCoreService){
 		var vm = this;
 
 		var recipeID = $location.search().id;
 		vm.elID = recipeID;
-		RecipeService.searchRecipeById(recipeID)
-			.then(function(data){
+
+		RecipeCoreService.get({id:recipeID})
+			.$promise.then(function(data){
 				vm.result = data;
 			})
 			.catch(function(err){

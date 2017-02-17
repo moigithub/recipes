@@ -18,10 +18,11 @@
 			      <div class="chip" ng-repeat="category in recipe.category">
 		        	<a href="recipes/categ?name={{category}}" internal>{{category}}</a>
 		          </div>
-		          <div>by {{recipe.userId}}</div>
 			    </div>
                 <div class="card-action">
                     <a href="recipe/details?id={{recipe._id}}" internal class="btn waves-effect waves-block waves-light">Show Recipe</a>
+                    <a ng-click="search.deleteRecipe(recipe._id)" class="btn waves-effect waves-block waves-light red">Delete</a>
+                    <a ng-click="search.getRecipe(recipe._id)" class="btn waves-effect waves-block waves-light blue">get</a>
                 </div>
 		  	</div>
 		</div>

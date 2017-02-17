@@ -126,7 +126,9 @@ describe('search by user controller', function(){
 			defer.reject();
 			return defer.promise;
 		});
+		spyOn(UserService, 'getCurrentUser').and.returnValue(fakeUser);
 
+		$location.search('userId',fakeUser.id);
 		var $this = $controller('SearchByUserController', {$location:$location, RecipeService: RecipeService});
 		$rootScope.$apply();
 
