@@ -3,19 +3,23 @@ recipe service CRUD
 landing page
 -search box (ya)
 -random recipe (ya)
--login (twitter, fb, google+, email)
+-login
+	 -with 
+	 		twitter (ya)
+	        fb (ya)
+	        email
      -CRUD recipes
      	-add (ya)
      	-list(ya)
      	-delete(ya)
-     	-edit
--most voted/likes (only logged ppl can vote) 
+     	-edit(ya)
+-most voted/likes (only logged ppl can vote) (ya)
 	- toggle vote (add userid to array) (ya)
-	- give vote icon
-	- remove vote icon
+	- give vote icon (ya)
+	- remove vote icon (ya)
 
 
-- my Like list
+- my Like list (ya)
 - my recipes (ya)
 
 /search page (ya)

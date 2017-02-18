@@ -22,8 +22,12 @@ angular.module('RecipeApp')
 			vm.recipe.userId = vm.recipe.userId._id;
 			vm.recipe.$update({recipeId: vm.recipe._id},function(){
 				//success
-				
+				$location.path("/myRecipes");
 			});
+		}
+
+		vm.cancel=function(){
+			$location.path("/myRecipes");
 		}
 	});
 

@@ -1,75 +1,3 @@
-var results= [
-		{
-			RecipeID: 123,
-			Name: 'Ensalada de palta',
-			photoUrl: 'http://lorempixel.com/250/250/food/1',
-			Ingredients: ['one','two','three'],
-			Preparation: 'big chunk of text',
-			Category: ['pasta', 'postre'],
-			Likes: 99,
-			UserId: 'user11'
-		},
-		{
-			RecipeID: 124,
-			Name: 'Seco de gato',
-			photoUrl: 'http://lorempixel.com/250/250/food/2',
-			Ingredients: ['one','naa','three'],
-			Preparation: 'asdfsdf text',
-			Category: ['sopas', 'carnes'],
-			Likes: 99,
-			UserId: 'user12'
-		},
-		{
-			RecipeID: 125,
-			Name: 'Lasagna',
-			photoUrl: 'http://lorempixel.com/250/250/food/3',
-			Ingredients: ['one','two','boo'],
-			Preparation: '8i78i78j78 text',
-			Category: ['bebida'],
-			Likes: 99,
-			UserId: 'user11'
-		},
-		{
-			RecipeID: 126,
-			Name: 'Lasagna',
-			photoUrl: 'http://lorempixel.com/250/250/food/4',
-			Ingredients: ['one','two','boo'],
-			Preparation: '8i78i78j78 text',
-			Category: ['bebida'],
-			Likes: 99,
-			UserId: 'user11'
-		},
-		{
-			RecipeID: 127,
-			Name: 'Langostino',
-			photoUrl: 'http://lorempixel.com/250/250/food/5',
-			Ingredients: ['one','two','boo'],
-			Preparation: '8i78i78j78 text',
-			Category: ['Entrada'],
-			Likes: 99,
-			UserId: 'user11'
-		},
-		{
-			RecipeID: 128,
-			Name: 'Tiburon',
-			photoUrl: 'http://lorempixel.com/250/250/food/6',
-			Ingredients: ['one','two','boo'],
-			Preparation: '8i78i78j78 text',
-			Category: ['Segundo'],
-			Likes: 99,
-			UserId: 'user11'
-		},
-		{
-			RecipeID: 129,
-			Name: 'Pescao',
-			photoUrl: 'http://lorempixel.com/250/250/food/7',
-			Ingredients: ['one','two','boo'],
-			Preparation: '8i78i78j78 text',
-			Category: ['bebida'],
-			Likes: 99,
-			UserId: 'user11'
-		}
-	];
 
 var express = require('express');
 var router = express.Router();
@@ -154,7 +82,10 @@ router.get('/top10', function(req,res){
 // find OR
 router.get('/searchByCateg/:categList', function(req,res){
 	var categList = req.params.categList.split(",");
-    Recipe.find({category:{$in: categList}})
+		
+    Recipe.find({categories:{$in: categList.map(function(categ){
+    		return new RegExp(categ.trim(), 'i');
+    	})}})
 		.populate('userId')
 		.lean()
 		.exec( function (err, recipes) {
@@ -171,8 +102,9 @@ router.get('/searchByCateg/:categList', function(req,res){
 
 //strict AND
 router.get('/searchByCategS/:categList', function(req,res){
-	var categList = req.params.categList.split(",");
-    Recipe.find({category:{ $all: [categList]}})
+	var categList = req.params.categList.split(",")
+		.map(function(categ){return categ.trim();});
+    Recipe.find({categories:{ $all: categList}})
 		.populate('userId')
 		.lean()
 		.exec( function (err, recipes) {

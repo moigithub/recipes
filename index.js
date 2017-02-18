@@ -79,6 +79,13 @@ app.get('/auth/twitter/callback', passport.authenticate('twitter', {
 	failureRedirect : '/'
 }));
 
+
+app.get('/recipes/categ',function(req,res){
+	console.log("server url",req.originalUrl);
+	//res.sendFile("/src/index.html", { root: __dirname });
+	res.redirect("/?goto="+req.originalUrl);
+})
+
 app.use('/api/user', require('./users'));
 app.use('/recipes', require('./recipes'));
 

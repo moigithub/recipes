@@ -52,7 +52,7 @@ describe('RecipeApi service', function(){
 
 
 
-			$httpBackend.expectPUT('/recipes', expectedData).respond(200);
+			$httpBackend.expectPUT('/recipes/1', expectedData).respond(200);
 
 			var newRecipe = new RecipeCoreService({
 				_id: 1,

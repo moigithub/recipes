@@ -4,7 +4,7 @@
       <div class="col s12 m5">
         <img materialboxed ng-src="{{detail.result.photoUrl}}" class="responsive-img materialboxed z-depth-2" data-caption="{{detail.result.name}}" alt="{{detail.result.name}}">
         <br>
-        <div class="chip" ng-repeat="category in detail.result.category">
+        <div class="chip" ng-repeat="category in detail.result.categories track by $index">
         	<a href="recipes/categ?name={{category}}" internal>{{category}}</a>
         </div>
         <div>by <a href="/myRecipes/{{detail.result.userId._id}}" internal>{{detail.result.userId.showName}}</a></div>
@@ -24,7 +24,7 @@
         <h3>{{detail.result.name}}</h3>
         <p>{{detail.result.preparation}}</p>
         <ul>
-        	<li ng-repeat="ing in detail.result.ingredients">{{ing}}</li>
+        	<li ng-repeat="ing in detail.result.ingredients track by $index">{{ing}}</li>
         </ul>
 
 

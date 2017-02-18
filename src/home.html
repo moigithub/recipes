@@ -8,7 +8,7 @@
       <div class="col s12 m7">
         <h3>{{main.randomRecipe.name}}</h3>
         <p>{{main.randomRecipe.preparation}}</p>
-        <div class="chip" ng-repeat="category in main.randomRecipe.category">
+        <div class="chip" ng-repeat="category in main.randomRecipe.categories track by $index">
           <a href="recipes/categ?name={{category}}" internal>{{category}}</a>
         </div>  
         <div>by <a href="/myRecipes/{{main.randomRecipe.userId._id}}" internal>{{main.randomRecipe.userId.showName}}</a></div>

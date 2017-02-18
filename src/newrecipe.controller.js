@@ -1,6 +1,6 @@
 
 angular.module('RecipeApp')
-	.controller('NewRecipeController', function NewRecipeController( UserService, RecipeCoreService ){
+	.controller('NewRecipeController', function NewRecipeController($location, UserService, RecipeCoreService ){
 		var vm = this;
 
 		vm.save = function(){
@@ -24,7 +24,7 @@ angular.module('RecipeApp')
 		}
 
 
-		newRecipe.cancel = function(){
+		vm.cancel = function(){
 			vm.recipe={};
 			$location.path("/myRecipes");
 		}

@@ -7,7 +7,7 @@
     </div>
 
 	<div class="row">
-		<div class="col s12 m6 l4" ng-repeat="recipe in search.results">
+		<div class="col s12 m6 l4" ng-repeat="recipe in search.results track by $index">
 			<div class="card medium">
 		    	<div class="card-image">
 			      <img class="responsive-img" ng-src="{{recipe.photoUrl}}" alt="{{main.randomRecipe.name}}">
@@ -15,7 +15,7 @@
                 </div>
                   
 			    <div class="card-content">
-			      <div class="chip" ng-repeat="category in recipe.category">
+			      <div class="chip" ng-repeat="category in recipe.categories track by $index">
 		        	<a href="recipes/categ?name={{category}}" internal>{{category}}</a>
 		          </div>
 		          <div>by <a href="/myRecipes/{{recipe.userId._id}}" internal>{{recipe.userId.showName}}</a></div>
