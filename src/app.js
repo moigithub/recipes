@@ -26,6 +26,11 @@ $provide.decorator('$sniffer', function($delegate) {
 			controllerAs : 'search',
 			templateUrl: 'myRecipes.html'
 		})
+		.when('/myFavorites',{
+			controller: 'SearchLikesController',
+			controllerAs : 'search',
+			templateUrl: 'myRecipes.html'
+		})
 		.when('/recipe/details',{
 			controller: 'DetailsController',
 			controllerAs : 'detail',

@@ -95,6 +95,24 @@ router.get('/', function(req,res){
 });
 
 
+router.get('/Likes/:uid', function(req,res){
+	var me = req.params.uid;
+Recipe.find({"likes": me})
+		.populate('userId')
+		.lean()
+		.exec( function (err, recipes) {
+        if(err) { return handleError(res, err); }
+
+        var result = recipes.map(function(recipe){
+        	return rebuildRecipe(recipe);
+        });
+
+        
+        return res.status(200).json(result);
+    });
+});
+
+
 router.get('/random', function(req,res){
 	
 	Recipe.aggregate( [ 
