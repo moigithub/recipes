@@ -6,7 +6,7 @@ var recipeSchema = mongoose.Schema({
 	ingredients: Array,
 	preparation: String,
 	category: Array,
-	likes: {type: Number, default:0},
+	likes: {type: Array, default:[]}, //array of usersId
 	date: { type: Date, default: Date.now },
 	userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 });

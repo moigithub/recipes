@@ -5,7 +5,16 @@ landing page
 -random recipe (ya)
 -login (twitter, fb, google+, email)
      -CRUD recipes
--most voted/likes (only logged ppl can vote)
+     	-add (ya)
+     	-list(ya)
+     	-delete(ya)
+     	-edit
+-most voted/likes (only logged ppl can vote) 
+	- toggle vote (add userid to array) (ya)
+	- give vote icon
+	- remove vote icon
+
+
 - my Like list
 - my recipes (ya)
 

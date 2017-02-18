@@ -2,7 +2,7 @@ angular.module('RecipeApp')
 	.controller('SearchByUserController', 
 		function SearchByUserController( $routeParams, $location, UserService, RecipeService, RecipeCoreService){
 		var vm = this;
-
+		vm.isLogged = UserService.isLogged;
 //if no user specified.. get the logged user recipes
 
 	//	var userId = $location.search().userId;
@@ -16,6 +16,8 @@ console.log("search by user controller ,curruser", currUser, userId);
 			if(currUser && currUser.hasOwnProperty('id')){
 				userId = currUser.id;
 				vm.query = currUser.displayName;
+			} else {
+				$location.path('/');
 			}
 			
 		} else {

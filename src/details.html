@@ -2,7 +2,7 @@
 	<div class="card-panel">
     <div class="row">
       <div class="col s12 m5">
-        <img materialboxed ng-src="{{detail.result.photoUrl}}" class="responsive-img materialboxed z-depth-2" data-caption="{{main.randomRecipe.name}}" alt="{{main.randomRecipe.name}}">
+        <img materialboxed ng-src="{{detail.result.photoUrl}}" class="responsive-img materialboxed z-depth-2" data-caption="{{detail.result.name}}" alt="{{detail.result.name}}">
         <br>
         <div class="chip" ng-repeat="category in detail.result.category">
         	<a href="recipes/categ?name={{category}}" internal>{{category}}</a>
@@ -11,8 +11,12 @@
 		<br>
 		
         <div>
-          <a class="btn-floating waves-effect waves-light green"><i class="material-icons">thumb_up</i></a> 
-          <span>{{detail.result.likes}}</span>
+          <a ng-if="detail.isLogged()" class="btn-floating waves-effect waves-light green" ng-click="detail.toggleLike(detail.result._id, detail.getCurrentUser().id)">
+            <i ng-hide="detail.iLikeIt" class="material-icons">thumb_up</i>
+            <i ng-show="detail.iLikeIt" class="material-icons red">thumb_down</i>
+
+          </a> 
+          <p ng-if="detail.result.likes.length>0"><span>{{detail.result.likes.length}}</span> Likes</p>
           <a class="waves-effect waves-light btn right blue"><i class="material-icons left">receipt</i>Tweet</a>
         </div>
       </div>

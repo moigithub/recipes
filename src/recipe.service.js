@@ -24,11 +24,10 @@ angular.module('RecipeAPI',[])
 			return defer.promise;
 		}
 
-///este creo q no deberia estar.. usar ngresource
-/*
-		this.searchRecipeById = function(id){
+		//toggle like: devuelve el recipe modificado
+		this.LikeRecipe = function(id, userId){
 			var defer = $q.defer();
-			$http.get('/recipes/searchById/'+id)
+			$http.put('/recipes/Like/'+id,{userId:userId})
 				.then(function(recipe){
 					defer.resolve(recipe.data);
 				})
@@ -37,7 +36,7 @@ angular.module('RecipeAPI',[])
 				});
 			return defer.promise;
 		}
-*/
+
 		this.searchRecipeByCateg = function(categ){
 			var defer = $q.defer();
 			$http.get('/recipes/searchByCateg/'+categ)

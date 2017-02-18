@@ -13,7 +13,8 @@
         </div>  
         <div>by <a href="/myRecipes/{{main.randomRecipe.userId._id}}" internal>{{main.randomRecipe.userId.showName}}</a></div>
         <div>
-          <a class="btn-floating waves-effect waves-light green"><i class="material-icons">thumb_up</i></a>
+          <p ng-if="main.randomRecipe.likes.length>0"><span>{{main.randomRecipe.likes.length}}</span> Likes</p>
+
           <a href="recipe/details?id={{main.randomRecipe._id}}" internal class="waves-effect waves-light btn-flat right blue"><i class="material-icons left">receipt</i>View</a>
         </div>
         

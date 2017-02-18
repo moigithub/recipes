@@ -106,9 +106,12 @@ router.get('/random', function(req,res){
 				as:'userId'
 			}}
 		])
-	.exec( function(err, recipe) {
+	.exec( function(err, recipes) {
     	if (err) { return handleError(res, err); }
-    	var tmp = Object.assign({},recipe[Math.floor(Math.random()*recipe.length)]);
+
+    	if(!recipes.length) return res.status(200).json({});
+
+    	var tmp = Object.assign({},recipes[Math.floor(Math.random()*recipes.length)]);
     	tmp.userId = tmp.userId[0];
        	return res.status(200).json(rebuildRecipe(tmp));
     });
@@ -168,7 +171,7 @@ router.get('/searchByCategS/:categList', function(req,res){
 
 
 router.get('/search/:name', function(req,res){
-    Recipe.find({name: {$regex: req.params.name}})
+    Recipe.find({name: {$regex: new RegExp(req.params.name,"i")}})
 		.populate('userId')
 		.lean()
 		.exec( function (err, recipes) {
@@ -196,6 +199,46 @@ router.get('/user/:id', function(req, res) {
 
         
         return res.status(200).json(result);;
+    });
+});
+
+// recipe toggle like
+router.put('/like/:id', function(req, res) {
+    Recipe.findById(req.params.id, function (err, recipe) {
+        if(err) { return handleError(res, err); }
+       
+       var userId = req.body.userId;
+       //toggle userID from array
+       if(!Array.isArray(recipe.likes) ){
+       		recipe.likes=[];
+       }
+
+
+        if (recipe.likes.indexOf(userId)===-1){
+        	recipe.likes.push(userId)
+        } else {
+        	recipe.likes = recipe.likes.filter(function(uid){
+        			return uid !== userId;
+        		});
+        }
+        recipe.save(function(err){
+        	if(err) { return handleError(res, err); }
+
+        	Recipe.findById(recipe._id)
+				.populate('userId')
+				.lean() //transform in a plain object
+				.exec( function (err, recipe) {
+		        if(err) { return handleError(res, err); }
+
+		        //this return a single object
+		        //mutate it 
+		        var result = rebuildRecipe(recipe);
+		    console.log(result)
+
+		        return res.status(200).json(result);
+		    });
+        });
+        
     });
 });
 
