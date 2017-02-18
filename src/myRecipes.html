@@ -21,6 +21,7 @@
 			    </div>
                 <div class="card-action" >
                     <a href="recipe/details?id={{recipe._id}}" internal class="btn waves-effect waves-block waves-light">Show Recipe</a>
+                    <a  ng-if="search.isLogged()" href="recipe/edit?id={{recipe._id}}" internal class="btn waves-effect waves-block waves-light blue">Edit</a>
                     <a  ng-if="search.isLogged()" ng-click="search.deleteRecipe(recipe._id)" class="btn waves-effect waves-block waves-light red">Delete</a>
 
                 </div>

@@ -11,15 +11,23 @@ angular.module('RecipeApp')
 				name: vm.recipe.name,
 				ingredients: vm.recipe.ingredients.split(","),
 				preparation: vm.recipe.preparation,
-				category: vm.recipe.categories.split(","),
+				categories: vm.recipe.categories.split(","),
 				likes: 0,
 				photoUrl: vm.recipe.photoUrl,
 				userId: UserService.getCurrentUser().id});
 			
 			newRecipe.$save(function(){
 				//success
-				
+				$location.path("/myRecipes");
 			});
+
 		}
+
+
+		newRecipe.cancel = function(){
+			vm.recipe={};
+			$location.path("/myRecipes");
+		}
+
 	});
 

@@ -6,12 +6,12 @@ angular.module('RecipeApp')
 		vm.getCurrentUser = UserService.getCurrentUser;
 
 		var recipeID = $location.search().id;
-		vm.elID = recipeID;
+//		vm.elID = recipeID;
 
 		vm.iLikeIt = false;
 
 
-		RecipeCoreService.get({id:recipeID})
+		RecipeCoreService.get({recipeId:recipeID})
 			.$promise.then(function(data){
 				vm.result = data;
 

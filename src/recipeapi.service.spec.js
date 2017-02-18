@@ -39,7 +39,7 @@ describe('RecipeApi service', function(){
 		it('get data with id', function(){
 			$httpBackend.expectGET('/recipes/1').respond(200);
 
-			var recipe = RecipeCoreService.get({id : 1});
+			var recipe = RecipeCoreService.get({recipeId : 1});
 			expect($httpBackend.flush).not.toThrow();
 		});
 
@@ -97,7 +97,7 @@ describe('RecipeApi service', function(){
 			$httpBackend.expectDELETE(checkUrl,checkHeaders).respond(200);
 
 			RecipeCoreService.query();
-			RecipeCoreService.get({RecipeID : 1});
+			RecipeCoreService.get({recipeId : 1});
 			new RecipeCoreService(recipe).$save();
 			new RecipeCoreService(recipe).$update();
 			new RecipeCoreService(recipe).$remove();

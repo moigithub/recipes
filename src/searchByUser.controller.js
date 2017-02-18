@@ -43,7 +43,7 @@ console.log("getuserbyid searchbyuser controller",user);
 
 		vm.deleteRecipe=function(recipeId){
 			console.log("delete recipe", recipeId);
-			RecipeCoreService.delete({id: recipeId},function(data){
+			RecipeCoreService.delete({recipeId: recipeId},function(data){
 				console.log("delete recipe",data);
 				vm.results = vm.results.filter(function(r){return r._id !== recipeId});
 			});
@@ -51,7 +51,7 @@ console.log("getuserbyid searchbyuser controller",user);
 		
 		vm.getRecipe=function(recipeId){
 			console.log("get recipe", recipeId);
-			RecipeCoreService.get({id: recipeId},function(data){
+			RecipeCoreService.get({recipeId: recipeId},function(data){
 				console.log("get recipe",data);
 			});
 		}
