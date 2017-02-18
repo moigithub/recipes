@@ -46,6 +46,12 @@ $provide.decorator('$sniffer', function($delegate) {
 			controllerAs : 'newRecipe',
 			templateUrl: 'recipe.form.html'
 		})
+		.when('/emailSignup',{
+			controller: 'emailSignUpController',
+			controllerAs : 'signUp',
+			templateUrl: 'email.signupform.html'
+		})
+
 		.when('/',{
 			controller: 'MainController',
 			controllerAs : 'main',

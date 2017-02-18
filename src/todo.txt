@@ -25,7 +25,7 @@ landing page
 /search page (ya)
 /details page (ya)
 /by category page (ya)
-/by multiple category (separados con coma)
+/by multiple category (separados con coma) (ya casi)
 
 
 node + express + mongodb + angular + bootstrap
