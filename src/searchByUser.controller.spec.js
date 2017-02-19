@@ -31,11 +31,11 @@
 describe('search by user controller', function(){
 	var  $httpBackend;
 	var $scope, $routeParams, $q;
-	var $controller, $rootScope, UserService;
+	var $controller, $rootScope, UserService, RecipeService;
 	
 	beforeEach(module('RecipeApp'));
 	beforeEach(module('RecipeAPI'));
-	beforeEach(inject(function(_$routeParams_, _UserService_,_$controller_, _$q_, _RecipeService_, _$rootScope_){
+	beforeEach(inject(function(_$routeParams_, _UserService_, _$controller_, _$q_, _RecipeService_, _$rootScope_){
 		$controller = _$controller_;
 		$routeParams = _$routeParams_;
 		UserService = _UserService_;

@@ -56,13 +56,12 @@ function isLoggedIn(req,res,next) {
 	res.redirect('/');
 }
 
-
-app.post('/signup', passport.authenticate('local-signup', {
+app.post('/auth/signup', passport.authenticate('local-signup', {
 	successRedirect: '/#!/authCheck',
 	failureRedirect: '/'
 }));
 
-app.post('/login', passport.authenticate('local-login', {
+app.post('/auth/login', passport.authenticate('local-login', {
 	successRedirect: '/#!/authCheck',
 	failureRedirect: '/'
 }));

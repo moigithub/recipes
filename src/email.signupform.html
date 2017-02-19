@@ -2,19 +2,29 @@
 <div class="row">
 	<form class="col s12" name="signUp.form" novalidate>
 		<div class="row">
+
 		  <div class="input-field col s12">
-		    <label for="email">email</label>
-		    <input ng-model="signUp.data.email" id="email" type="text" placeholder="" class="validate">
+		    <input ng-model="signUp.data.email" id="email" type="email" name="email" class="validate" required>
+		    <label for="email">email (required)</label>
+	                    
 		  </div>
+       		<div class="col s12" ng-messages="signUp.form.email.$error" ng-show="signUp.form.email.$touched" role="alert">
+	        	<div ng-message="required">Please enter a value for this field.</div>
+		 		<div ng-message="email">email address invalid</div>
+	        </div>  
 		</div>
 		<div class="row">
 		  <div class="input-field col s12">
-		    <label for="password">password</label>
-		    <input ng-model="signUp.data.password" id="password" type="password" placeholder="" class="validate">
+		    <label for="password">password (required)</label>
+		    <input ng-model="signUp.data.password" id="password" type="password" name="password" class="validate" min-length="4" required>
 		  </div>
+	       <div ng-messages="signUp.form.password.$error" ng-show="signUp.form.password.$touched" role="alert">
+	          <div ng-message="required">Please enter a value for this field.</div>
+	          <div ng-message="minlength">This field can be at least 4 characters long.</div>
+	        </div>                      
 		</div>
 
-		<button id="Save" ng-click="signUp.save()">Save</button>
+		<button id="Save" ng-disabled="signUp.form.$invalid" ng-click="signUp.save()">Save</button>
 		<button id="Close" ng-click="signUp.cancel()">Close</button>		
 	</form>
 </div>

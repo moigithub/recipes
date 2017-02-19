@@ -1,5 +1,5 @@
 
-angular.module('RecipeApp',['ngRoute','RecipeAPI','UserServiceAPI','RecipeCoreAPI',
+angular.module('RecipeApp',['ngRoute','RecipeAPI','UserServiceAPI','RecipeCoreAPI','ngMessages',
 	'ui.materialize.carousel', 'ui.materialize.materialboxed','ui.materialize.modal','ui.materialize.sidenav'])
 .config(function($routeProvider, $locationProvider, $provide){
 /*
@@ -47,7 +47,7 @@ $provide.decorator('$sniffer', function($delegate) {
 			templateUrl: 'recipe.form.html'
 		})
 		.when('/emailSignup',{
-			controller: 'emailSignUpController',
+			controller: 'EmailSignupController',
 			controllerAs : 'signUp',
 			templateUrl: 'email.signupform.html'
 		})

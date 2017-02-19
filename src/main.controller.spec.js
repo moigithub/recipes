@@ -41,7 +41,7 @@ var randomRecipe = {
 describe('Main Controller', function(){
 	var  $q;
 	var $rootScope, $location;
-	var $controller;
+	var $controller, RecipeService;
 	
 	beforeEach(module('RecipeApp'));
 //	beforeEach(module('RecipeAPI'));

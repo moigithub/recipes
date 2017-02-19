@@ -40,9 +40,10 @@ console.log("auth service::getUser", data);
 		//TODO: registerEmail
 		vm.registerEmail = function(userData){
 			var defer = $q.defer();
-
-			$http.post('/api/user', userData)
+                        
+			$http.post('/auth/signup', userData)
 				.then(function(data){
+console.log("email signup success",data);
 					defer.resolve(data.data);
 				})
 				.catch(function(err){
@@ -55,7 +56,7 @@ console.log("auth service::getUser", data);
 		vm.getUserById = function(userId){
 			var defer = $q.defer();
 			$http.get('/api/user/'+userId).then(function(data){
-console.log("auth.service::getUserById", data)				;
+console.log("auth.service::getUserById", data);
 				var user = data.data;
 				defer.resolve(user);
 

@@ -16,16 +16,16 @@
       <div id="main-container" ng-controller="AuthController as auth">
         <div class="tope">
           <div class="nav-wrapper">
-            <ul  ng-if="!auth.isLogged()" class="right" >
+            <ul  ng-if="!auth.isLogged()" class="right hide-on-med-and-down " >
               <li>
-                <a href="#" data-activates="slide-out" data-menuwidth="300" closeonclick="true" sidenav="right">
-                  <i class="fa fa-sign-in" aria-hidden="true"></i><span class="hide-on-med-and-down"> Login</span></a>
+                <a href="#" data-activates="slide-out" data-menuwidth="400" closeonclick="true" sidenav="right">
+                  <i class="fa fa-sign-in" aria-hidden="true"></i><span> Login</span></a>
               </li>
               <li><a href="/emailSignup"><i class="fa fa-pencil-square-o" aria-hidden="true"></i><span class="hide-on-med-and-down"> Register</span></a></li>
             </ul>
             <ul  ng-if="auth.isLogged()" class="right" >
               <li >Welcome <span>{{auth.user.displayName}}</span></li>
-              <li ><a href="/auth/logout"><i class="fa fa-sign-out" aria-hidden="true"></i><span class="hide-on-med-and-down"> Logout</span></a></li>
+              <li ><a href="/auth/logout"><i class="fa fa-sign-out" aria-hidden="true"></i><span> Logout</span></a></li>
             </ul>
           </div>
         </div>
@@ -76,6 +76,7 @@
         <!--Import jQuery before materialize.js-->
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.6.2/angular-messages.min.js"></script>
 
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-route.js"></script>
@@ -97,53 +98,14 @@
         <script src="edit.controller.js"></script>
         <script src="details.controller.js"></script>
         <script src="auth.controller.js"></script>
+        <script src="email.signup.controller.js"></script>
         <script src="newrecipe.controller.js"></script>
 
 
       </div>
 
 
-    <ul id="slide-out" class="side-nav">
-      <li class="no-padding">
-        <div class="row">
-          <form class="col s12">
-            <div class="row">
-              <div class="input-field col s12">
-                <i class="material-icons prefix">email</i>
-                <input id="email" type="email" class="validate">
-                <label for="email">Email</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <i class="material-icons prefix">account_circle</i>
-                <input id="password" type="password" class="validate">
-                <label for="password">Password</label>
-              </div>
-            </div>
-
-          </form>
-        </div>
-      </li>
-      <li><p class="right-align"><h5>-or- Login with...</h5></p></li>
-      
-        <p>
-          <a href="/auth/Facebook" class="btn waves-effect waves-light btn-large blue lighten-1">
-            <i class="fa fa-facebook-square fa-4x left" aria-hidden="true"></i>Facebook</a>
-        </p>
-        <p>
-          <a href="/auth/twitter" class="btn waves-effect waves-light btn-large blue darken-3">
-            <i class="fa fa-twitter-square fa-4x left" aria-hidden="true"></i>Twitter</a>
-        </p>
-        <p>
-          <a href="/auth/google" class="btn waves-effect waves-light btn-large red lighten-1">
-            <i class="fa fa-google-plus-square fa-4x left" aria-hidden="true"></i>Google+</a>
-        </p>
-    </ul>
-     
-     
-
-  <div class="side-nav "  id ="mobile-menu">
+    <div class="side-nav "  id ="slide-out">
               <ul ng-if="auth.isLogged()">
                 <li ><a href="myRecipes" internal><i class="material-icons left">library_books</i>My Recipes</a></li>
                 <li ><a href="myFavorites" internal><i class="material-icons left">library_books</i>My Favorites</a></li>
@@ -154,27 +116,36 @@
                 <div><i class="material-icons left">person_pin</i>Login</div>
 
                 <div class="row">
-                  <form class="col s12">
+                  <form class="col s12" method="POST" action="/auth/login" name="signUp.form" novalidate>
                     <div class="row">
                       <div class="input-field col s12">
                         <i class="material-icons prefix">email</i>
-                        <input id="email" type="email" class="validate">
-                        <label for="email">Email</label>
+                        <input id="email" type="email" name="email" class="validate" required>
+                        <label for="email">Email (required)</label>
+                      <span ng-messages="signUp.form.email.$error"  ng-show="signUp.form.email.$touched"role="alert">
+                        <div ng-message="required">Please enter a value for this field.</div>
+                        <div ng-message="email">This field must be a valid email address.</div>
+                      </span>
                       </div>
                     </div>
                     <div class="row">
                       <div class="input-field col s12">
                         <i class="material-icons prefix">account_circle</i>
-                        <input id="password" type="password" class="validate">
-                        <label for="password">Password</label>
+                        <input id="password" type="password" name="password" class="validate" min-length="4" required>
+                        <label for="password">Password (required)</label>
+                        <span ng-messages="signUp.form.password.$error"  ng-show="signUp.form.password.$touched"role="alert">
+                            <div ng-message="required">Please enter a value for this field.</div>
+                            <div ng-message="minlength">This field can be at least 4 characters long.</div>
+                        </span>                      
                       </div>
                     </div>
 
+                    <button type="submit"ng-disabled="signUp.form.$invalid" class="btn waves-effect waves-light btn-large blue darken-3">LogIn</button>
                   </form>
                 </div>
                 <hr>
                 <div> 
-                  <p class="right-align">-or- Login with...</p>
+                  <li class="no-padding"><p class="right-align"><h5>-or- Login with...</h5></p></li>
                     <p>
                       <a href="/auth/Facebook" class="btn waves-effect waves-light btn-large blue lighten-1">
                         <i class="fa fa-facebook-square fa-4x left" aria-hidden="true"></i>Facebook</a>
@@ -192,7 +163,72 @@
                 <br>
                 <hr>
                 <p>
-                  <a href="emailSignup"><i class="material-icons left">library_books</i>e-Mail Register</a>
+                  <a href="/emailSignup"><i class="material-icons left">library_books</i>e-Mail Register</a>
+                </p>
+              </div>
+            </div>   
+     
+     
+
+  <div class="side-nav "  id ="mobile-menu">
+              <ul ng-if="auth.isLogged()">
+                <li ><a href="myRecipes" internal><i class="material-icons left">library_books</i>My Recipes</a></li>
+                <li ><a href="myFavorites" internal><i class="material-icons left">library_books</i>My Favorites</a></li>
+                <hr>
+                <li ><a href="/auth/logout"><i class="material-icons left">library_books</i>Logout</a></li>
+              </ul> 
+              <div ng-if="!auth.isLogged()">
+                <div><i class="material-icons left">person_pin</i>Login</div>
+
+                <div class="row">
+                  <form class="col s12" method="POST" action="/auth/login" name="signUp.form" novalidate>
+                    <div class="row">
+                      <div class="input-field col s12">
+                        <i class="material-icons prefix">email</i>
+                        <input id="email" type="email" name="email" class="validate" required>
+                        <label for="email">Email (required)</label>
+                      <span ng-messages="signUp.form.email.$error"  ng-show="signUp.form.email.$touched"role="alert">
+                        <div ng-message="required">Please enter a value for this field.</div>
+                        <div ng-message="email">This field must be a valid email address.</div>
+                      </span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="input-field col s12">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input id="password" type="password" name="password" class="validate" min-length="4" required>
+                        <label for="password">Password (required)</label>
+                        <span ng-messages="signUp.form.password.$error"  ng-show="signUp.form.password.$touched"role="alert">
+                            <div ng-message="required">Please enter a value for this field.</div>
+                            <div ng-message="minlength">This field can be at least 4 characters long.</div>
+                        </span>                      
+                      </div>
+                    </div>
+
+                    <button type="submit"ng-disabled="signUp.form.$invalid" class="btn waves-effect waves-light btn-large blue darken-3">LogIn</button>
+                  </form>
+                </div>
+                <hr>
+                <div> 
+                  <li class="no-padding"><p class="right-align"><h5>-or- Login with...</h5></p></li>
+                    <p>
+                      <a href="/auth/Facebook" class="btn waves-effect waves-light btn-large blue lighten-1">
+                        <i class="fa fa-facebook-square fa-4x left" aria-hidden="true"></i>Facebook</a>
+                    </p>
+                    <p>
+                      <a href="/auth/twitter" class="btn waves-effect waves-light btn-large blue darken-3">
+                        <i class="fa fa-twitter-square fa-4x left" aria-hidden="true"></i>Twitter</a>
+                    </p>
+                    <p>
+                      <a href="/auth/google" class="btn waves-effect waves-light btn-large red lighten-1">
+                        <i class="fa fa-google-plus-square fa-4x left" aria-hidden="true"></i>Google+</a>
+                    </p>
+                
+                </div>
+                <br>
+                <hr>
+                <p>
+                  <a href="/emailSignup"><i class="material-icons left">library_books</i>e-Mail Register</a>
                 </p>
               </div>
             </div>     

@@ -22,12 +22,13 @@ module.exports = function(passport){
 	// Register new user
 	//************************
 	passport.use('local-signup', new LocalStrategy({
-			userNameField : 'email',
+			usernameField : 'email',
 			passwordField : 'password',
 			passReqToCallback : true
 		}, 
 		function(req, email, password, done){
 			process.nextTick(function(){
+console.log("local -signup passport")				;
 				User.findOne({'local.email': email}, function(err, user){
 					if (err) return done(err);
 
@@ -35,6 +36,7 @@ module.exports = function(passport){
 						// email already exist
 						return done(null, false);
 					} else {
+console.log("registering new ", email, password);
 						var newUser = new User();
 						newUser.local.email = email;
 						newUser.local.password = newUser.generateHash(password);
@@ -55,19 +57,20 @@ module.exports = function(passport){
 	// Login  user
 	//************************
 	passport.use('local-login', new LocalStrategy({
-			userNameField : 'email',
+			usernameField : 'email',
 			passwordField : 'password',
 			passReqToCallback : true
 		}, 
 		function(req, email, password, done){
 			process.nextTick(function(){
+console.log("local -login passport")				;				
 				User.findOne({'local.email': email}, function(err, user){
 					if (err) return done(err);
 
 					if(!user) return done(null, false);
 
 					if (!user.validPassword(password)) return done(null, false);
-
+console.log("login", email, password);
 					return done(null, user);
 				});
 			});

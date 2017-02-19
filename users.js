@@ -14,15 +14,6 @@ router.get('/', function(req,res,next){
 });
 
 
-router.post('/', function(req,res,next){
-	//TODO
-	var userData = req.body;
-	console.log("register user email",userData);
-	
-	res.json(userData);
-});
-
-
 router.get('/:id', function(req,res){
     User.findById(req.params.id, function (err, user) {
 	        if(err) { return handleError(res, err); }
