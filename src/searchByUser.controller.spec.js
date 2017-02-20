@@ -50,7 +50,8 @@ describe('search by user controller', function(){
 	}));
 
 	it('should have search results', function(){
-		var fakeUser = {id:'123', displayName:'yoni'};
+		var fakeUser = {id:'123', displayName:'yoni',keytoken:'token'};
+			
 
 		spyOn(RecipeService, 'searchRecipeByUserId').and.callFake(function(){
 			var defer = $q.defer();
@@ -72,7 +73,7 @@ describe('search by user controller', function(){
 	});
 
 	it('should set query to currentuser name', function(){
-		var fakeUser = {id:'234', displayName:'yoni'};
+		var fakeUser = {id:'234', displayName:'yoni',keytoken:'token'};
 
 		spyOn(UserService, 'getCurrentUser').and.returnValue(fakeUser);
 
@@ -96,7 +97,7 @@ describe('search by user controller', function(){
 	});
 
 	it('should set query to specified user name', function(){
-		var fakeUser = {id:'456', displayName:'tutu'};
+		var fakeUser = {id:'456', displayName:'tutu',keytoken:'token'};
 		
 		spyOn(UserService, 'getUserById').and.callFake(function(){
 			var defer = $q.defer();

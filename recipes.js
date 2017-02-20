@@ -1,6 +1,10 @@
 
 var express = require('express');
 var router = express.Router();
+
+var jwt = require('jsonwebtoken');
+var config = require('./config.js');
+
 var Recipe = require('./Recipe.model.js');
 var User = require('./User.model.js');
 ////////////////
@@ -25,7 +29,7 @@ router.get('/', function(req,res){
 
 router.get('/Likes/:uid', function(req,res){
 	var me = req.params.uid;
-Recipe.find({"likes": me})
+    Recipe.find({"likes": me})
 		.populate('userId')
 		.lean()
 		.exec( function (err, recipes) {
@@ -152,8 +156,25 @@ router.get('/user/:id', function(req, res) {
     });
 });
 
+
+router.get('/:id', function(req,res){
+    Recipe.findById(req.params.id)
+        .populate('userId')
+        .lean() //transform in a plain object
+        .exec( function (err, recipe) {
+        if(err) { return handleError(res, err); }
+
+        //this return a single object
+        //mutate it 
+        var result = rebuildRecipe(recipe);
+    console.log(result)
+
+        return res.status(200).json(result);
+    });
+});
+
 // recipe toggle like
-router.put('/like/:id', function(req, res) {
+router.put('/like/:id', isAuth, checkToken, function(req, res) {
     Recipe.findById(req.params.id, function (err, recipe) {
         if(err) { return handleError(res, err); }
        
@@ -192,23 +213,7 @@ router.put('/like/:id', function(req, res) {
     });
 });
 
-router.get('/:id', function(req,res){
-    Recipe.findById(req.params.id)
-		.populate('userId')
-		.lean() //transform in a plain object
-		.exec( function (err, recipe) {
-        if(err) { return handleError(res, err); }
-
-        //this return a single object
-        //mutate it 
-        var result = rebuildRecipe(recipe);
-    console.log(result)
-
-        return res.status(200).json(result);
-    });
-});
-
-router.post('/', function(req,res){
+router.post('/', isAuth, checkToken, function(req,res){
 	console.log("new recipe", req.body);
 
 	
@@ -219,7 +224,7 @@ router.post('/', function(req,res){
 });
 
 
-router.delete('/:id', function(req, res) {
+router.delete('/:id',isAuth,  checkToken,function(req, res) {
   Recipe.findById(req.params.id, function (err, recipe) {
     if(err) { return handleError(res, err); }
     if(!recipe) { return res.status(404).send('Not Found'); }
@@ -231,7 +236,7 @@ router.delete('/:id', function(req, res) {
 });
 
 //update
-router.put('/:id',  function(req, res) {
+router.put('/:id', isAuth, checkToken,  function(req, res) {
   if(req.body._id) { delete req.body._id; }
   Recipe.findById(req.params.id, function (err, recipe) {
     if (err) { return handleError(res, err); }
@@ -279,3 +284,36 @@ function handleError(res, err) {
   return res.status(500).send(err);
 }
 
+
+/******************/
+//     CHECK if logged in
+/******************/
+function isAuth(req,res,next){
+    if (req.isAuthenticated()){
+        next();
+    } else {
+        return res.redirect("/");
+    }
+}
+
+
+/******************/
+//     CHECK JW TOKEN
+/******************/
+function checkToken(req,res,next){
+    var token = req.body.token || req.query.token|| req.headers['authtoken'];
+console.log("-----------------TOKEN ", token);
+    if(token){
+        jwt.verify(token, config.superSecret, function(err,decoded){
+            if(err){
+                return res.json({success:false, message: 'Failed to auth.'})
+            } else {
+                req.decoded = decoded;
+                next();
+            }
+        });
+    } else {
+        //no token provided
+        return res.status(403).json({success:false, message: 'No token provided.'})
+    }
+}

@@ -9,8 +9,7 @@ var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var jwt = require('jsonwebtoken');
-var config = require('/config.js');
+
 
 
 //var modRewrite = require('connect-modrewrite');
@@ -48,26 +47,7 @@ app.use(modRewrite([
 
 
 
-/******************/
-//     CHECK JW TOKEN
-/******************/
-function checkToken(req,res,next){
-	var token = req.body.token || req.query.token|| req.headers['authToken'];
 
-	if(token){
-		jwt.verify(token, config.superSecret, function(err,decoded){
-			if(err){
-				return res.json({success:false, message: 'Failed to auth.'})
-			} else {
-				req.decoded = decoded;
-				next();
-			}
-		});
-	} else {
-		//no token provided
-		return res.status(403).json({success:false, message: 'No token provided.'})
-	}
-}
 
 
 /******************/

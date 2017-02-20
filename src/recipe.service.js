@@ -1,5 +1,5 @@
-angular.module('RecipeAPI',[])
-	.service('RecipeService', function($http, $q){
+angular.module('RecipeAPI',['UserServiceAPI'])
+	.service('RecipeService', function($http, $q, UserService){
 		this.getRandomRecipe = function(){
 			var defer = $q.defer();
 			$http.get('/recipes/random')
@@ -27,7 +27,15 @@ angular.module('RecipeAPI',[])
 		//toggle like: devuelve el recipe modificado
 		this.LikeRecipe = function(id, userId){
 			var defer = $q.defer();
-			$http.put('/recipes/Like/'+id,{userId:userId})
+			var options = {};
+			var user = UserService.getCurrentUser() ||{} ;
+console.log("PUT like options",options,user);
+			if ( user.hasOwnProperty('keytoken')){
+				options.headers= {
+					"authToken":user.keytoken 
+				}
+			};
+			$http.put('/recipes/Like/'+id,{userId:userId}, options) //options
 				.then(function(recipe){
 					defer.resolve(recipe.data);
 				})

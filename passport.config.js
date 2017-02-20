@@ -1,9 +1,6 @@
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy  = require('passport-twitter').Strategy;
-var jwt = require('jsonwebtoken');
-
-var config = require('/config.js');
 
 var configAuth = require('./auth.conf.js');
 
@@ -11,11 +8,14 @@ var User = require('./User.model.js');
 
 module.exports = function(passport){
 	passport.serializeUser(function(user, done){
+		//console.log("serialize",user);
 		done(null, user.id);
 	});
 
 	passport.deserializeUser(function(id, done){
 		User.findById(id, function(err, user){
+		//	console.log("DE-serialize",user);
+
 			done(err, user);
 		});
 	});
@@ -31,7 +31,7 @@ module.exports = function(passport){
 		}, 
 		function(req, email, password, done){
 			process.nextTick(function(){
-console.log("local -signup passport")				;
+//console.log("local -signup passport")				;
 				User.findOne({'local.email': email}, function(err, user){
 					if (err) return done(err);
 
@@ -39,19 +39,13 @@ console.log("local -signup passport")				;
 						// email already exist
 						return done(null, false);
 					} else {
-console.log("registering new ", email, password);
+//console.log("registering new ", email, password);
 						var newUser = new User();
 						newUser.local.email = email;
 						newUser.local.password = newUser.generateHash(password);
 
 						newUser.save(function(err){
 							if(err) throw err;
-
-							var token = jwt.sign(newUser, config.superSecret, {
-								expiresInMinutes: 60*24   //expira en 24 horas
-							});
-
-							newUser.token = token;
 
 							return done(null, newUser);
 						})
@@ -72,20 +66,14 @@ console.log("registering new ", email, password);
 		}, 
 		function(req, email, password, done){
 			process.nextTick(function(){
-console.log("local -login passport")				;				
+//console.log("local -login passport")				;				
 				User.findOne({'local.email': email}, function(err, user){
 					if (err) return done(err);
 
 					if(!user) return done(null, false);
 
 					if (!user.validPassword(password)) return done(null, false);
-console.log("login", email, password);
-
-					var token = jwt.sign(user, config.superSecret, {
-						expiresInMinutes: 60*24   //expira en 24 horas
-					});
-
-					user.token = token;
+//console.log("login", email, password);
 
 
 					return done(null, user);
@@ -109,12 +97,6 @@ passport.use(new FacebookStrategy({
 		User.findOne({'facebook.id': profile.id}, function(err, user){
 			if (err) return done(err);
 			if (user) {
-				var token = jwt.sign(user, config.superSecret, {
-					expiresInMinutes: 60*24   //expira en 24 horas
-				});
-
-				user.token = token;
-
 				return done(null, user);
 			}
 			else {
@@ -124,17 +106,11 @@ passport.use(new FacebookStrategy({
 				newUser.facebook.token = token;
 				newUser.facebook.name = profile.name.givenName + ' '+ profile.name.familyName;
 
-console.log("facebok",JSON.stringify(profile));
+//console.log("facebok",JSON.stringify(profile));
 				newUser.facebook.email = profile.emails[0].value;
 
 				newUser.save(function(err){
 					if (err) throw err;
-
-					var token = jwt.sign(newUser, config.superSecret, {
-						expiresInMinutes: 60*24   //expira en 24 horas
-					});
-
-					newUser.token = token;
 
 					return done(null, newUser);
 				});
@@ -156,12 +132,6 @@ passport.use(new TwitterStrategy({
 		User.findOne({'twitter.id': profile.id}, function(err, user){
 			if (err) return done(err);
 			if (user) {
-				var token = jwt.sign(user, config.superSecret, {
-					expiresInMinutes: 60*24   //expira en 24 horas
-				});
-
-				user.token = token;
-
 				return done(null, user);
 			}
 			else {
@@ -172,17 +142,12 @@ passport.use(new TwitterStrategy({
 				newUser.twitter.username = profile.username;
 				newUser.twitter.displayName = profile.displayName;
 
-				console.log(profile);
+				//console.log(profile);
 				//newUser.twitter.email = profile.emails[0].value;
 
 				newUser.save(function(err){
 					if (err) throw err;
 
-					var token = jwt.sign(newUser, config.superSecret, {
-						expiresInMinutes: 60*24   //expira en 24 horas
-					});
-
-					newUser.token = token;
 
 					return done(null, newUser);
 				});

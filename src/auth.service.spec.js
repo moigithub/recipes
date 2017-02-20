@@ -76,7 +76,7 @@ describe('auth service', function(){
 	it('isLogged should return boolean value', function(){
 		UserService.logout();
 		expect(UserService.isLogged()).toEqual(false);
-		$window.localStorage.user ='test';
+		$window.localStorage.user ='[{"id":"test"}]';
 		expect(UserService.isLogged()).toEqual(true);
 	});
 
