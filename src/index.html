@@ -105,7 +105,7 @@
       </div>
 
 
-    <div class="side-nav "  id ="slide-out">
+    <div class="side-nav "  id ="slide-out"  ng-controller="AuthController as auth">
               <ul ng-if="auth.isLogged()">
                 <li ><a href="myRecipes" internal><i class="material-icons left">library_books</i>My Recipes</a></li>
                 <li ><a href="myFavorites" internal><i class="material-icons left">library_books</i>My Favorites</a></li>
@@ -170,7 +170,7 @@
      
      
 
-  <div class="side-nav "  id ="mobile-menu">
+  <div class="side-nav "  id ="mobile-menu"  ng-controller="AuthController as auth">
               <ul ng-if="auth.isLogged()">
                 <li ><a href="myRecipes" internal><i class="material-icons left">library_books</i>My Recipes</a></li>
                 <li ><a href="myFavorites" internal><i class="material-icons left">library_books</i>My Favorites</a></li>
