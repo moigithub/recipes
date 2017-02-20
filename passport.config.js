@@ -1,6 +1,9 @@
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy  = require('passport-twitter').Strategy;
+var jwt = require('jsonwebtoken');
+
+var config = require('/config.js');
 
 var configAuth = require('./auth.conf.js');
 
@@ -44,6 +47,12 @@ console.log("registering new ", email, password);
 						newUser.save(function(err){
 							if(err) throw err;
 
+							var token = jwt.sign(newUser, config.superSecret, {
+								expiresInMinutes: 60*24   //expira en 24 horas
+							});
+
+							newUser.token = token;
+
 							return done(null, newUser);
 						})
 					}
@@ -71,6 +80,14 @@ console.log("local -login passport")				;
 
 					if (!user.validPassword(password)) return done(null, false);
 console.log("login", email, password);
+
+					var token = jwt.sign(user, config.superSecret, {
+						expiresInMinutes: 60*24   //expira en 24 horas
+					});
+
+					user.token = token;
+
+
 					return done(null, user);
 				});
 			});
@@ -91,7 +108,15 @@ passport.use(new FacebookStrategy({
 	process.nextTick(function(){
 		User.findOne({'facebook.id': profile.id}, function(err, user){
 			if (err) return done(err);
-			if (user) return done(null, user)
+			if (user) {
+				var token = jwt.sign(user, config.superSecret, {
+					expiresInMinutes: 60*24   //expira en 24 horas
+				});
+
+				user.token = token;
+
+				return done(null, user);
+			}
 			else {
 				var newUser = new User();
 
@@ -104,6 +129,12 @@ console.log("facebok",JSON.stringify(profile));
 
 				newUser.save(function(err){
 					if (err) throw err;
+
+					var token = jwt.sign(newUser, config.superSecret, {
+						expiresInMinutes: 60*24   //expira en 24 horas
+					});
+
+					newUser.token = token;
 
 					return done(null, newUser);
 				});
@@ -124,7 +155,15 @@ passport.use(new TwitterStrategy({
 	process.nextTick(function(){
 		User.findOne({'twitter.id': profile.id}, function(err, user){
 			if (err) return done(err);
-			if (user) return done(null, user)
+			if (user) {
+				var token = jwt.sign(user, config.superSecret, {
+					expiresInMinutes: 60*24   //expira en 24 horas
+				});
+
+				user.token = token;
+
+				return done(null, user);
+			}
 			else {
 				var newUser = new User();
 
@@ -138,6 +177,12 @@ passport.use(new TwitterStrategy({
 
 				newUser.save(function(err){
 					if (err) throw err;
+
+					var token = jwt.sign(newUser, config.superSecret, {
+						expiresInMinutes: 60*24   //expira en 24 horas
+					});
+
+					newUser.token = token;
 
 					return done(null, newUser);
 				});
