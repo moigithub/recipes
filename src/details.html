@@ -17,7 +17,9 @@
 
           </a> 
           <p ng-if="detail.result.likes.length>0"><span>{{detail.result.likes.length}}</span> Likes</p>
-          <a class="waves-effect waves-light btn right blue"><i class="material-icons left">receipt</i>Tweet</a>
+
+          <div tweet="detail.result.name - detail.result.photoUrl"></div>
+
         </div>
       </div>
       <div class="col s12 m7">

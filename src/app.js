@@ -1,5 +1,5 @@
 
-angular.module('RecipeApp',['ngRoute','RecipeAPI','UserServiceAPI','RecipeCoreAPI','ngMessages',
+angular.module('RecipeApp',['ngRoute','RecipeAPI','UserServiceAPI','RecipeCoreAPI','ngMessages','angulike',
 	'ui.materialize.carousel', 'ui.materialize.materialboxed','ui.materialize.modal','ui.materialize.sidenav'])
 .config(function($routeProvider, $locationProvider, $provide){
 /*
